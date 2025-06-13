@@ -30,6 +30,7 @@
       "path": "lang/en.json"
     }
   ],
+  "url": "https://ko-fi.com/ephaltes",
   "manifest": "path/to/module.json",
   "download": "path/to/zip/or/repo.zip"
 }
