@@ -1,0 +1,32 @@
+<form>
+  <p class="npcforge-ustawienia-podpowiedz">
+    {{{localize "NPCForge.PodpowiedzUstawienia"}}}
+  </p>
+  <hr>
+
+  {{#each wybrane as |wartosc klucz|}}
+    <div class="form-group">
+      <label>{{localize (concat "NPCForge.Ustawienia" (capitalize klucz))}}</label>
+      <select name="{{klucz}}">
+        <option value="" {{#unless wartosc}}selected{{/unless}}></option>
+        {{#each ../kompendia as |kompendium|}}
+          <option value="{{kompendium.klucz}}" {{#if (eq wartosc kompendium.klucz)}}selected{{/if}}>
+            {{kompendium.nazwa}}
+          </option>
+        {{/each}}
+      </select>
+    </div>
+  {{/each}}
+
+  
+  <p class="hint">
+    {{{localize "NPCForge.BronNaturalnaInfo"}}}
+  </p>
+
+  <hr />
+  <p class="npcforge-ustawienia-ikonyInfo">
+    {{{localize "NPCForge.IkonyInfo"}}}
+  </p>
+
+  <button type="submit"><i class="fas fa-save"></i> {{localize "NPCForge.PrzyciskZapisz"}}</button>
+</form>

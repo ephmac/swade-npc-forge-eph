@@ -1,0 +1,333 @@
+<form class="npc-forge-dialogRasy">
+
+  <div class="npcforge-dialogRasyZawartosc"> 
+
+    {{!-- Nazwa --}}
+    <h3>{{localize "NPCForge.NazwaRasy"}}</h3>
+    <input type="text" name="npcforge-nazwaRasy" value="" />
+    {{pustaLinia}}
+
+    {{!-- Atrybuty --}}
+    <h3>{{localize "NPCForge.Atrybuty"}}</h3>
+    <p class="hint">{{localize "NPCForge.AtrybutyOpisRasa"}}</p>
+    <hr/>
+
+    <div class="npcforge-atrybutyRasa">
+      <span></span>
+      <span class="npcforge-atrybutyMinMaxRasa">{{localize "NPCForge.Min"}}</span>
+      <span class="npcforge-atrybutyMinMaxRasa">{{localize "NPCForge.Max"}}</span>
+      <span class="npcforge-atrybutyMinMaxRasa">{{localize "NPCForge.ZakresAnomalii"}}</span>
+    </div>
+
+    <div class="npcforge-atrybutyRasa">
+      <label>{{localize "NPCForge.Zrecznosc"}}</label>
+      {{> listaKosciK4    nazwa="npcforge-zrecznosc_min" }}
+      {{> listaKosciK12   nazwa="npcforge-zrecznosc_max" }}
+      <input type="number" name="npcforge-zrecznosc_anomalia" value="1" />
+    </div> 
+
+    <div class="npcforge-atrybutyRasa">
+      <label>
+        {{localize "NPCForge.Spryt"}}
+        <span class="npcforge-zwierzecySprytNapisRasa">{{localize "NPCForge.ZwierzecySprytKrotko"}}</span>
+        <input type="checkbox" name="npcforge-zwierzecy_spryt_rasa"/>
+      </label>
+      {{> listaKosciK4    nazwa="npcforge-spryt_min" }}
+      {{> listaKosciK12   nazwa="npcforge-spryt_max" }}
+      <input type="number" name="npcforge-spryt_anomalia" value="1" />
+    </div>   
+
+    <div class="npcforge-atrybutyRasa">
+      <label>{{localize "NPCForge.Duch"}}</label>
+      {{> listaKosciK4    nazwa="npcforge-duch_min" }}
+      {{> listaKosciK12   nazwa="npcforge-duch_max" }}
+      <input type="number" name="npcforge-duch_anomalia" value="1" />
+    </div> 
+
+    <div class="npcforge-atrybutyRasa">
+      <label>{{localize "NPCForge.Sila"}}</label>
+      {{> listaKosciK4    nazwa="npcforge-sila_min" }}
+      {{> listaKosciK12   nazwa="npcforge-sila_max" }}
+      <input type="number" name="npcforge-sila_anomalia" value="1" />
+    </div>
+
+    <div class="npcforge-atrybutyRasa">
+      <label>{{localize "NPCForge.Wigor"}}</label>
+      {{> listaKosciK4    nazwa="npcforge-wigor_min" }}
+      {{> listaKosciK12   nazwa="npcforge-wigor_max" }}
+      <input type="number" name="npcforge-wigor_anomalia" value="1" />
+    </div> 
+
+    {{!-- Umiejętności --}}
+    <hr/>
+    <h3>{{localize "NPCForge.Umiejetnosci"}}</h3>
+    <p class="hint">{{localize "NPCForge.UmiejetnosciOpisRasa"}}</p>
+    <hr/>
+
+    <div>
+      <div id="npcforge-listaUmiejetnosciRasy"></div>
+    </div>
+
+    <div class="npcforge-przyciskPlusRasa">
+      <button type="button" id="npcforge-dodajUmiejetnoscRasy">➕</button>
+      <span></span>
+    </div>
+
+    {{!-- Przewagi --}}
+    <hr/>
+    <h3>{{localize "NPCForge.Przewagi"}}</h3>
+    <p class="hint">{{localize "NPCForge.PrzewagiOpisRasa"}}</p>
+    <hr/>
+
+    <div>
+      <div id="npcforge-listaPrzewagRasy"></div>
+    </div>
+
+    <div class="npcforge-przyciskPlusRasa">
+      <button type="button" id="npcforge-dodajPrzewageRasy">➕</button>
+      <span></span>
+    </div>
+
+    {{!-- Zawady --}}
+    <hr/>
+    <h3>{{localize "NPCForge.Zawady"}}</h3>
+    <p class="hint">{{localize "NPCForge.ZawadyOpisRasa"}}</p>
+    <hr/>
+
+    <div>
+      <div id="npcforge-listaZawadRasy"></div>
+    </div>
+
+    <div class="npcforge-przyciskPlusRasa">
+      <button type="button" id="npcforge-dodajZawadeRasy">➕</button>
+      <span></span>
+    </div>
+
+    {{!-- Moce --}}
+    <hr/>
+    <h3>{{localize "NPCForge.Moce"}}</h3>
+    <p class="hint">{{localize "NPCForge.MoceOpisRasa"}}</p>
+    <hr/>
+
+    <div>
+      <div id="npcforge-listaMocyRasy"></div>
+    </div>
+
+    <div class="npcforge-przyciskPlusRasa">
+      <button type="button" id="npcforge-dodajMocRasy">➕</button>
+      <span></span>
+    </div>
+
+    <fieldset id="npcforge-fieldsetArkanaRasy" style="display: none;">
+      <legend>{{localize "NPCForge.Arkana"}}</legend>
+      <div id="npcforge-listaArkanRasa"></div>
+    </fieldset>
+
+    {{!-- Modyfikatory --}}
+    <hr/>
+    <h3>{{localize "NPCForge.Modyfikatory"}}</h3>
+    <hr/>
+
+    {{!-- rozmiar --}}
+    <fieldset class="npcforge-rozmiarRasa">
+
+      <div>
+        <label name="npcforge-rozmiar_label_rasa">
+          {{localize "NPCForge.Rozmiar"}}
+          <select name="npcforge-rozmiarRasa">
+            <option value="-4">-4</option>
+            <option value="-3">-3</option>
+            <option value="-2">-2</option>
+            <option value="-1">-1</option>
+            <option value="0" selected>0</option>
+            <option value="1">1</option>
+            <option value="2">2</option>
+            <option value="3">3</option>
+            <option value="4">4</option>
+            <option value="5">5</option>
+            <option value="6">6</option>
+            <option value="7">7</option>
+            <option value="8">8</option>
+            <option value="9">9</option>
+            <option value="10">10</option>
+            <option value="11">11</option>
+            <option value="12">12</option>
+            <option value="13">13</option>
+            <option value="14">14</option>
+            <option value="15">15</option>
+            <option value="16">16</option>
+            <option value="17">17</option>
+            <option value="18">18</option>
+            <option value="19">19</option>
+            <option value="20">20</option>
+            </select>
+        </label>
+      </div>
+
+      <div>
+        <label>{{localize "NPCForge.Wytrzymalosc"}}</label>
+        <input type="text" name="npcforge-rozmiarWytrzymaloscRasa" readonly/>
+      </div>
+
+      <div>
+        <label>{{localize "NPCForge.ModyfikatorSkali"}}</label>
+        <input type="text" name="npcforge-modyfikatorSkaliRasa" readonly/>
+      </div>
+
+      <div>
+        <label>{{localize "NPCForge.ZasiegAtaku"}}</label>
+        <input type="text" name="npcforge-zasiegAtakuRasa" readonly/>
+      </div>
+
+      <div>
+        <label>{{localize "NPCForge.MaksylneRany"}}</label>
+        <input type="text" name="npcforge-maksymalneRanyRasa" readonly/>
+      </div>
+
+      <div>
+        <label>
+          <input type="checkbox" name="npcforge-zastosujMaksymalneRany" class="npcforge-checkbox-obnizony" checked />
+          {{localize "NPCForge.ZastosujMaksymalneRany"}}
+        </label>
+      </div>
+
+    </fieldset>
+
+    {{!-- tempo --}}
+    <fieldset class="npcforge-tempoRasa">
+      <legend>{{localize "NPCForge.Tempo"}}</legend>
+
+        <div>
+          <label>{{localize "NPCForge.TempoNaZiemi"}}</label>
+          <input type="number" name="npcforge-tempoNaZiemiRasa" value="6" />
+        </div>
+
+        <div>
+          <label>{{localize "NPCForge.TempoLot"}}</label>
+          <input type="number" name="npcforge-tempoLotRasa" value="0" />
+        </div>
+
+        <div>
+          <label>{{localize "NPCForge.TempoPlywanie"}}</label>
+          <input type="number" name="npcforge-tempoPlywanieRasa" value="3" />
+        </div>
+
+        <div>
+          <label>{{localize "NPCForge.TempoPodZiemia"}}</label>
+          <input type="number" name="npcforge-tempoPodZiemiaRasa" value="0" />
+        </div>
+
+        <div>
+          <label>{{localize "NPCForge.TempoDomyslne"}}</label>
+        </div>
+
+        <div>
+          <select name="npcforge-tempoDomyslneRasa">
+            <option value="na_ziemi" selected>{{localize "NPCForge.TempoNaZiemi"}}</option>
+            <option value="lot">{{localize "NPCForge.TempoLot"}}</option>
+            <option value="plywanie">{{localize "NPCForge.TempoPlywanie"}}</option>
+            <option value="pod_ziemia">{{localize "NPCForge.TempoPodZiemia"}}</option>
+          </select>
+        </div>
+
+        <div>
+          <label>{{localize "NPCForge.KoscBiegania"}}</label>
+        </div>
+
+        <div class="npcforge-koscbiegania">
+          {{> listaKosciKrotka_k6 nazwa="npcforge-koscBieganiaRasa" }}
+          {{> listaModyfikator nazwa="npcforge-modyfikatorKosciBieganiaRasa" }}
+        </div> 
+    
+    </fieldset>
+
+  {{pustaLinia}}
+
+    {{!-- Pozostałe modyfikatory --}}
+
+      <div class="npcforge-pozostaleModyfikatoryRasa">
+
+          <label>{{localize "NPCForge.Obrona"}}</label>
+          {{> listaModyfikator nazwa="modyfikator_obrony" }}
+        
+          <label>{{localize "NPCForge.Wytrzymalosc"}}</label>
+          {{> listaModyfikator nazwa="modyfikator_wytrzymalosci" }}
+        
+
+          <label>{{localize "NPCForge.MaksylneRany"}}</label>
+          {{> listaModyfikator nazwa="maksimum_ran" }}
+
+          <label>{{localize "NPCForge.IgnorowanieRan"}}</label>
+          {{> listaModyfikatorNieujemny nazwa="ignorowanie_ran" }}
+
+
+          <label>{{localize "NPCForge.MaksymalneZmeczenie"}}</label>
+          {{> listaModyfikator nazwa="maksimum_zmeczenia" }}
+        
+          <label>{{localize "NPCForge.IgnorowanieZmeczenia"}}</label>
+          {{> listaModyfikatorNieujemny nazwa="ignorowanie_zmeczenia" }}
+        
+
+          <label>{{localize "NPCForge.MaksimumFuksow"}}</label>
+          {{> listaModyfikator nazwa="modyfikator_fuksow" }}
+        
+          <span></span>
+          <span></span>
+        
+
+          <label>{{localize "NPCForge.ModyfikatorWyjsciaZSzkoku"}}</label>
+          {{> listaModyfikator nazwa="modyfikator_wyjscia_z_szoku" }}
+        
+          <label>{{localize "NPCForge.ModyfikatorWyparowania"}}</label>
+          {{> listaModyfikator nazwa="modyfikator_wyparowania" }}
+        
+        
+          <label>{{localize "NPCForge.DodatkowePrzewagi"}}</label>
+          {{> listaModyfikatorNieujemny nazwa="dodatkowe_przewagi" }}
+        
+          <label>{{localize "NPCForge.DodatkoweZawady"}}</label>
+          {{> listaModyfikatorNieujemny nazwa="dodatkowe_zawady" }}
+      
+      </div>
+
+    {{!-- Broń naturalna --}}
+    <hr/>
+    <h3>{{localize "NPCForge.BronNaturalna"}}</h3>
+    <p class="hint">{{localize "NPCForge.BronNaturalnaOpisRasa"}}</p>
+    <hr/>
+
+    <div>
+      <div id="npcforge-listaBroniNaturalnejRasy"></div>
+    </div>
+
+    <div class="npcforge-przyciskPlusBronNaturalnaRasa">
+      <button type="button" id="npcforge-dodajBronNaturalnaRasy">➕</button>
+      <input type="text" id="npcforge-bronNaturalnaKategoria" name="npcforge-bronNaturalnaKategoria" class="npcforge-kategoria-input-rasy"/>
+      <label>     
+        <input type="checkbox" name="npcforge-bronNaturalnaCheckbox" class="npcforge-checkbox-obnizony" checked />{{localize "NPCForge.KategoriaBroniNaturalnej"}} 
+      </label>
+    </div>
+
+    {{!-- Tablice --}}
+    <hr/>
+    <h3>{{localize "NPCForge.Tablice"}}</h3>
+    <p class="hint">{{localize "NPCForge.TabliceOpisRasa"}}</p>
+    <hr/>
+
+    <div>
+      <div id="npcforge-listaTablicRasy"></div>
+    </div>
+
+    <div class="npcforge-przyciskPlusRasa">
+      <button type="button" id="npcforge-dodajTabliceRasy">➕</button>
+      <span></span>
+    </div>
+
+    {{!-- Info --}}
+    <hr/>
+    <p class="hint">{{localize "NPCForge.InfoRasa"}}</p>
+    <hr/>
+
+  </div> 
+  
+</form>

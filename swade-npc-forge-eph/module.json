@@ -1,0 +1,35 @@
+{
+  "id": "swade-npc-forge-eph",
+  "title": "SWADE NPC Forge ⫷𝗘𝗣𝗛⫸",
+  "description": "NPC generator for Savage Worlds Adventure Edition.",
+  "version": "1.0.0",
+  "authors": [
+    {
+      "name": "Ephaltes"
+    }
+  ],
+  "compatibility": {
+    "minimum": "13",
+    "verified": "13"
+  },
+  "esmodules": [
+    "scripts/main.js"
+  ],
+  "styles": [
+    "styles/styles.css"
+  ],
+  "languages": [
+    {
+      "lang": "pl",
+      "name": "Polski",
+      "path": "lang/pl.json"
+    },
+    {
+      "lang": "en",
+      "name": "English",
+      "path": "lang/en.json"
+    }
+  ],
+  "manifest": "path/to/module.json",
+  "download": "path/to/zip/or/repo.zip"
+}
