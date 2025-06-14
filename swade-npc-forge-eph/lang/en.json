@@ -206,6 +206,6 @@
 "NPCForge.NazwaPrzewagi":               "Edge Name",
 "NPCForge.PrzewagaNaprzyrodzona":       "Power Edge",
 "NPCForge.WymaganaPrzewagaDajacaMoce":  "Required Arcane Backgrounds",
-"NPCForge.OpisModyfikator":             "This modifier comes from the race"
-
+"NPCForge.OpisModyfikator":             "This modifier comes from the race",
+"NPCForge.Dowolna":                     "Any"
 } 

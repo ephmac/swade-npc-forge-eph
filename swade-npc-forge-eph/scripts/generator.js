@@ -129,7 +129,7 @@ export async function generujNPC(daneFormularza){
         let anomaliaInfoSi; if(anomaliaSi!==0) anomaliaInfoSi = `${game.i18n.localize("NPCForge.Sila")}: ${anomaliaSi} `; else anomaliaInfoSi = "";
         let anomaliaInfoWi; if(anomaliaWi!==0) anomaliaInfoWi = `${game.i18n.localize("NPCForge.Wigor")}: ${anomaliaWi} `; else anomaliaInfoWi = "";
         let anomaliaInfo = anomaliaInfoZr+anomaliaInfoSp+anomaliaInfoDu+anomaliaInfoSi+anomaliaInfoWi;
-        if (anomaliaInfo !== "") anomaliaInfo = game.i18n.localize("NPCForge.Anomalie")+": "+anomaliaInfoZr+anomaliaInfoSp+anomaliaInfoDu+anomaliaInfoSi+anomaliaInfoWi+"\n\n";
+        if (anomaliaInfo !== "") anomaliaInfo = game.i18n.localize("NPCForge.Anomalie")+": "+anomaliaInfoZr+anomaliaInfoSp+anomaliaInfoDu+anomaliaInfoSi+anomaliaInfoWi+"<br><br>";
 
         let limAtrLicz = Kosci.Liczba(limitAtrybut, "D");
 
@@ -1492,11 +1492,19 @@ export async function generujNPC(daneFormularza){
             const tabela = await fromUuid(uuid);
 
             if (tabela instanceof RollTable) {
-                const wynik = await tabela.draw();
-                const tekst = wynik.results[0]?.text || "Brak wyniku";
-                wynikTablic += `Wynik z ${tabela.name}: "${tekst}"\n\n`;
+                const wynik = await tabela.draw({ displayChat: false });
+                const name = wynik.results[0]?.name || "";
+                const tekst = wynik.results[0]?.text || "";
+                const desc = wynik.results[0]?.description || "";
+                let ostatecznyWynik = "ERROR";
+
+                if(name !== "") ostatecznyWynik = name;
+                else if (tekst !== "") ostatecznyWynik = tekst;
+                else if (desc !== "") ostatecznyWynik = desc;
+
+                wynikTablic += `${tabela.name}: "${ostatecznyWynik}"<br><br>`;
             } else {
-                wynikTablic += `Nie znaleziono tablicy dla ${uuid}\n`;
+                wynikTablic += `Nie znaleziono tablicy dla ${uuid}<br>`;
             }
         }
 
@@ -1539,7 +1547,7 @@ export async function generujNPC(daneFormularza){
         let zasiegAtaku = rasaDane.modyfikatory.rozmiar.zasieg_ataku || "";
         if (zasiegAtaku === "-") zasiegAtaku = "";
         let zasiegOpis = ""
-        if(zasiegAtaku!=="") zasiegOpis = `${game.i18n.localize("NPCForge.ZasiegAtaku")}: ${zasiegAtaku}\n\n`
+        if(zasiegAtaku!=="") zasiegOpis = `${game.i18n.localize("NPCForge.ZasiegAtaku")}: ${zasiegAtaku}<br><br>`
 
         let maxRanyRozmiar = rasaDane.modyfikatory.rozmiar.maksymalne_rany;
         if( maxRanyRozmiar === "-") maxRanyRozmiar = 0;

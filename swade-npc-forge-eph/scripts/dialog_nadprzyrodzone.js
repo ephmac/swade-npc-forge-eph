@@ -84,7 +84,7 @@ async function renderujLinie(przewaga, przewagi) {
   const listaZdolnosci = game.settings.get("swade-npc-forge-eph", "przewagiMocy").zdolnosci || [];
 
   // buduj <option>
-let opcjeHTML = `<option value="">Dowolna</option>`;
+let opcjeHTML = `<option value="">${game.i18n.localize("NPCForge.Dowolna")}</option>`;
 
 for (let i = 0; i < listaZdolnosci.length; i++) {
   const przew = listaZdolnosci[i];
