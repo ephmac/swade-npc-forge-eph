@@ -1,0 +1,456 @@
+<div class="npcforge-dialogOpcji">
+  <div class="npcforge-dialogOpcji-zawartosc">
+
+    <div class="npcforge-wagiNaglowek">
+      <h3>{{localize "NPCForge.WagaElementow"}}</h3>
+      <button type="button" id="resetujWagi">{{localize "NPCForge.Reset"}}</button>
+    </div>
+    <p class="hint">{{localize "NPCForge.WagaElementowOpis"}}</p>
+    <hr>
+
+    <div class="npcforge-wagiOpcje">
+      <div class="npcforge-kowadlaOpcje">
+        <img src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo1.png"/>
+      </div>
+      <div class="npcforge-kowadlaOpcje">
+        <img src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo2.png"/>
+        <img src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo2.png"/>
+      </div>
+      <div class="npcforge-kowadlaOpcje">
+        <img src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo3.png"/>
+        <img src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo3.png"/>
+        <img src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo3.png"/>
+      </div>
+
+      <input type="number" name="npcforge-waga1"/>
+      <input type="number" name="npcforge-waga2"/>
+      <input type="number" name="npcforge-waga3"/>
+
+      <input type="text" disabled name="npcforge-wagaProc1"/>
+      <input type="text" disabled name="npcforge-wagaProc2"/>
+      <input type="text" disabled name="npcforge-wagaProc3"/>
+
+    </div>
+
+  {{pustaLinia}}
+
+  <h3>{{localize "NPCForge.ZasadyLosowania"}}</h3>
+  <p class="hint">{{localize "NPCForge.ZasadyLosowaniaOpis"}}</p>
+  <hr>
+
+  <div class="npcforge-blokTypu">
+
+    <div class="npcforge-naglowekBloku">
+      <img src="modules/swade-npc-forge-eph/icons/przeciwnik.png"/>
+      <label>{{localize "NPCForge.Przeciwnik"}}</label>
+      <p class="hint">{{localize "NPCForge.PrzeciwnikHint"}}</p>
+      <span></span>
+      <button type="button" class="npcforge-resetBlokuP">{{localize "NPCForge.Reset"}}</button>
+    </div>
+
+    <div class="npcforge-gridTypu">
+      
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Nowicjusz"}}><img src="modules/swade-npc-forge-eph/icons/rangi/1.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Doswiadczony"}}><img src="modules/swade-npc-forge-eph/icons/rangi/2.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Weteran"}}><img src="modules/swade-npc-forge-eph/icons/rangi/3.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Heros"}}><img src="modules/swade-npc-forge-eph/icons/rangi/4.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Legenda"}}><img src="modules/swade-npc-forge-eph/icons/rangi/5.png" /></span>
+
+      <label>{{localize "NPCForge.PunktyAtrybutow"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-atrybutow-P1"/>
+      <input type="number" name="punkty-atrybutow-P2"/>
+      <input type="number" name="punkty-atrybutow-P3"/>
+      <input type="number" name="punkty-atrybutow-P4"/>
+      <input type="number" name="punkty-atrybutow-P5"/>
+
+      <label>{{localize "NPCForge.PunktyUmiejetnosci"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-umiejetnosci-P1"/>
+      <input type="number" name="punkty-umiejetnosci-P2"/>
+      <input type="number" name="punkty-umiejetnosci-P3"/>
+      <input type="number" name="punkty-umiejetnosci-P4"/>
+      <input type="number" name="punkty-umiejetnosci-P5"/>
+
+      <label>{{localize "NPCForge.PunktyPrzewag"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-przewag-P1"/>
+      <input type="number" name="punkty-przewag-P2"/>
+      <input type="number" name="punkty-przewag-P3"/>
+      <input type="number" name="punkty-przewag-P4"/>
+      <input type="number" name="punkty-przewag-P5"/>
+
+      <label>{{localize "NPCForge.PunktySuma"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" disabled name="punkty-suma-P1"/>
+      <input type="number" disabled name="punkty-suma-P2"/>
+      <input type="number" disabled name="punkty-suma-P3"/>
+      <input type="number" disabled name="punkty-suma-P4"/>
+      <input type="number" disabled name="punkty-suma-P5"/>
+
+      <label>{{localize "NPCForge.MaxAtrybut"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxAtrybutCheckbox-P"/>
+      {{> listaKosciK12   nazwa="maxAtrybut-P1" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-P2" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-P3" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-P4" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-P5" }}
+
+      <label>{{localize "NPCForge.MaxUmiejetnosc"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxUmiejetnoscCheckbox-P"/>
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-P1" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-P2" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-P3" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-P4" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-P5" }}
+
+      <label>{{localize "NPCForge.LosujZawady"}}</label>
+      <span></span>
+      <input type="checkbox" name="losujZawady-P"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Od"}}</span>
+      <input type="number" name="zawadyOd-P"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Do"}}</span>
+      <input type="number" name="zawadyDo-P"/>
+      <span></span>
+
+      <!-- Zasady rozwoju -->
+      <label>{{localize "NPCForge.PrzestrzegajZasadRozwoju"}}</label>
+      <span></span>
+      <input type="checkbox" name="przestrzegajZasad-P"/>
+      <span></span><span></span><span></span><span></span><span></span>
+
+
+      <!-- Anomalie -->
+      <label>{{localize "NPCForge.ZezwólNaAnomalie"}}</label>
+      <span></span>
+      <input type="checkbox" name="zezwolNaAnomalie-P"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Szansa"}}</span>
+      <input type="number" name="anomalieSzansa-P"/>
+      <span class="npcforge-doLewej">%</span><span></span><span></span>
+
+    </div>
+
+  </div>
+
+
+  <div class="npcforge-blokTypu">
+
+    <div class="npcforge-naglowekBloku">
+      <img src="modules/swade-npc-forge-eph/icons/boss.png"/>
+      <label>{{localize "NPCForge.Boss"}}</label>
+      <p class="hint">{{localize "NPCForge.BossHint"}}</p>
+      <span></span>
+      <button type="button" class="npcforge-resetBlokuBo">{{localize "NPCForge.Reset"}}</button>
+    </div>
+
+    <div class="npcforge-gridTypu">
+      
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Nowicjusz"}}><img src="modules/swade-npc-forge-eph/icons/rangi/1.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Doswiadczony"}}><img src="modules/swade-npc-forge-eph/icons/rangi/2.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Weteran"}}><img src="modules/swade-npc-forge-eph/icons/rangi/3.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Heros"}}><img src="modules/swade-npc-forge-eph/icons/rangi/4.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Legenda"}}><img src="modules/swade-npc-forge-eph/icons/rangi/5.png" /></span>
+
+      <label>{{localize "NPCForge.PunktyAtrybutow"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-atrybutow-Bo1"/>
+      <input type="number" name="punkty-atrybutow-Bo2"/>
+      <input type="number" name="punkty-atrybutow-Bo3"/>
+      <input type="number" name="punkty-atrybutow-Bo4"/>
+      <input type="number" name="punkty-atrybutow-Bo5"/>
+
+      <label>{{localize "NPCForge.PunktyUmiejetnosci"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-umiejetnosci-Bo1"/>
+      <input type="number" name="punkty-umiejetnosci-Bo2"/>
+      <input type="number" name="punkty-umiejetnosci-Bo3"/>
+      <input type="number" name="punkty-umiejetnosci-Bo4"/>
+      <input type="number" name="punkty-umiejetnosci-Bo5"/>
+
+      <label>{{localize "NPCForge.PunktyPrzewag"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-przewag-Bo1"/>
+      <input type="number" name="punkty-przewag-Bo2"/>
+      <input type="number" name="punkty-przewag-Bo3"/>
+      <input type="number" name="punkty-przewag-Bo4"/>
+      <input type="number" name="punkty-przewag-Bo5"/>
+
+      <label>{{localize "NPCForge.PunktySuma"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" disabled name="punkty-suma-Bo1"/>
+      <input type="number" disabled name="punkty-suma-Bo2"/>
+      <input type="number" disabled name="punkty-suma-Bo3"/>
+      <input type="number" disabled name="punkty-suma-Bo4"/>
+      <input type="number" disabled name="punkty-suma-Bo5"/>
+
+      <label>{{localize "NPCForge.MaxAtrybut"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxAtrybutCheckbox-Bo"/>
+      {{> listaKosciK12   nazwa="maxAtrybut-Bo1" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-Bo2" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-Bo3" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-Bo4" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-Bo5" }}
+
+      <label>{{localize "NPCForge.MaxUmiejetnosc"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxUmiejetnoscCheckbox-Bo"/>
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-Bo1" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-Bo2" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-Bo3" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-Bo4" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-Bo5" }}
+
+      <label>{{localize "NPCForge.LosujZawady"}}</label>
+      <span></span>
+      <input type="checkbox" name="losujZawady-Bo"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Od"}}</span>
+      <input type="number" name="zawadyOd-Bo"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Do"}}</span>
+      <input type="number" name="zawadyDo-Bo"/>
+      <span></span>
+
+      <!-- Zasady rozwoju -->
+      <label>{{localize "NPCForge.PrzestrzegajZasadRozwoju"}}</label>
+      <span></span>
+      <input type="checkbox" name="przestrzegajZasad-Bo"/>
+      <span></span><span></span><span></span><span></span><span></span>
+
+
+      <!-- Anomalie -->
+      <label>{{localize "NPCForge.ZezwólNaAnomalie"}}</label>
+      <span></span>
+      <input type="checkbox" name="zezwolNaAnomalie-Bo"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Szansa"}}</span>
+      <input type="number" name="anomalieSzansa-Bo"/>
+      <span class="npcforge-doLewej">%</span><span></span><span></span>
+
+    </div>
+
+  </div>
+
+
+  <div class="npcforge-blokTypu">
+
+    <div class="npcforge-naglowekBloku">
+      <img src="modules/swade-npc-forge-eph/icons/blotka.png"/>
+      <label>{{localize "NPCForge.Postac"}}</label>
+      <p class="hint">{{localize "NPCForge.PostacHint"}}</p>
+      <span></span>
+      <button type="button" class="npcforge-resetBlokuB" >{{localize "NPCForge.Reset"}}</button>
+    </div>
+
+    <div class="npcforge-gridTypu">
+      
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Nowicjusz"}}><img src="modules/swade-npc-forge-eph/icons/rangi/1.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Doswiadczony"}}><img src="modules/swade-npc-forge-eph/icons/rangi/2.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Weteran"}}><img src="modules/swade-npc-forge-eph/icons/rangi/3.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Heros"}}><img src="modules/swade-npc-forge-eph/icons/rangi/4.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Legenda"}}><img src="modules/swade-npc-forge-eph/icons/rangi/5.png" /></span>
+
+      <label>{{localize "NPCForge.PunktyAtrybutow"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-atrybutow-B1"/>
+      <input type="number" name="punkty-atrybutow-B2"/>
+      <input type="number" name="punkty-atrybutow-B3"/>
+      <input type="number" name="punkty-atrybutow-B4"/>
+      <input type="number" name="punkty-atrybutow-B5"/>
+
+      <label>{{localize "NPCForge.PunktyUmiejetnosci"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-umiejetnosci-B1"/>
+      <input type="number" name="punkty-umiejetnosci-B2"/>
+      <input type="number" name="punkty-umiejetnosci-B3"/>
+      <input type="number" name="punkty-umiejetnosci-B4"/>
+      <input type="number" name="punkty-umiejetnosci-B5"/>
+
+      <label>{{localize "NPCForge.PunktyPrzewag"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-przewag-B1"/>
+      <input type="number" name="punkty-przewag-B2"/>
+      <input type="number" name="punkty-przewag-B3"/>
+      <input type="number" name="punkty-przewag-B4"/>
+      <input type="number" name="punkty-przewag-B5"/>
+
+      <label>{{localize "NPCForge.PunktySuma"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" disabled name="punkty-suma-B1"/>
+      <input type="number" disabled name="punkty-suma-B2"/>
+      <input type="number" disabled name="punkty-suma-B3"/>
+      <input type="number" disabled name="punkty-suma-B4"/>
+      <input type="number" disabled name="punkty-suma-B5"/>
+
+      <label>{{localize "NPCForge.MaxAtrybut"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxAtrybutCheckbox-B"/>
+      {{> listaKosciK12   nazwa="maxAtrybut-B1" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-B2" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-B3" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-B4" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-B5" }}
+
+      <label>{{localize "NPCForge.MaxUmiejetnosc"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxUmiejetnoscCheckbox-B"/>
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-B1" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-B2" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-B3" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-B4" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-B5" }}
+
+      <label>{{localize "NPCForge.LosujZawady"}}</label>
+      <span></span>
+      <input type="checkbox" name="losujZawady-B"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Od"}}</span>
+      <input type="number" name="zawadyOd-B"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Do"}}</span>
+      <input type="number" name="zawadyDo-B"/>
+      <span></span>
+
+      <!-- Zasady rozwoju -->
+      <label>{{localize "NPCForge.PrzestrzegajZasadRozwoju"}}</label>
+      <span></span>
+      <input type="checkbox" name="przestrzegajZasad-B"/>
+      <span></span><span></span><span></span><span></span><span></span>
+
+
+      <!-- Anomalie -->
+      <label>{{localize "NPCForge.ZezwólNaAnomalie"}}</label>
+      <span></span>
+      <input type="checkbox" name="zezwolNaAnomalie-B"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Szansa"}}</span>
+      <input type="number" name="anomalieSzansa-B"/>
+      <span class="npcforge-doLewej">%</span><span></span><span></span>
+
+    </div>
+
+  </div>
+
+
+  <div class="npcforge-blokTypu">
+
+    <div class="npcforge-naglowekBloku">
+      <img src="modules/swade-npc-forge-eph/icons/figura.png"/>
+      <label>{{localize "NPCForge.Bohater"}}</label>
+      <p class="hint">{{localize "NPCForge.BohaterHint"}}</p>
+      <span></span>
+      <button type="button" class="npcforge-resetBlokuF">{{localize "NPCForge.Reset"}}</button>
+    </div>
+
+    <div class="npcforge-gridTypu">
+      
+      <span></span>
+      <span></span>
+      <span></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Nowicjusz"}}><img src="modules/swade-npc-forge-eph/icons/rangi/1.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Doswiadczony"}}><img src="modules/swade-npc-forge-eph/icons/rangi/2.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Weteran"}}><img src="modules/swade-npc-forge-eph/icons/rangi/3.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Heros"}}><img src="modules/swade-npc-forge-eph/icons/rangi/4.png" /></span>
+      <span class="npcforge-ikonaRangi" title={{localize "NPCForge.Legenda"}}><img src="modules/swade-npc-forge-eph/icons/rangi/5.png" /></span>
+
+      <label>{{localize "NPCForge.PunktyAtrybutow"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-atrybutow-F1"/>
+      <input type="number" name="punkty-atrybutow-F2"/>
+      <input type="number" name="punkty-atrybutow-F3"/>
+      <input type="number" name="punkty-atrybutow-F4"/>
+      <input type="number" name="punkty-atrybutow-F5"/>
+
+      <label>{{localize "NPCForge.PunktyUmiejetnosci"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-umiejetnosci-F1"/>
+      <input type="number" name="punkty-umiejetnosci-F2"/>
+      <input type="number" name="punkty-umiejetnosci-F3"/>
+      <input type="number" name="punkty-umiejetnosci-F4"/>
+      <input type="number" name="punkty-umiejetnosci-F5"/>
+
+      <label>{{localize "NPCForge.PunktyPrzewag"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" name="punkty-przewag-F1"/>
+      <input type="number" name="punkty-przewag-F2"/>
+      <input type="number" name="punkty-przewag-F3"/>
+      <input type="number" name="punkty-przewag-F4"/>
+      <input type="number" name="punkty-przewag-F5"/>
+
+      <label>{{localize "NPCForge.PunktySuma"}}</label>
+      <span></span>
+      <span></span>
+      <input type="number" disabled name="punkty-suma-F1"/>
+      <input type="number" disabled name="punkty-suma-F2"/>
+      <input type="number" disabled name="punkty-suma-F3"/>
+      <input type="number" disabled name="punkty-suma-F4"/>
+      <input type="number" disabled name="punkty-suma-F5"/>
+
+      <label>{{localize "NPCForge.MaxAtrybut"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxAtrybutCheckbox-F"/>
+      {{> listaKosciK12   nazwa="maxAtrybut-F1" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-F2" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-F3" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-F4" }}
+      {{> listaKosciK12   nazwa="maxAtrybut-F5" }}
+
+      <label>{{localize "NPCForge.MaxUmiejetnosc"}}</label>
+      <span></span>
+      <input type="checkbox" name="maxUmiejetnoscCheckbox-F"/>
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-F1" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-F2" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-F3" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-F4" }}
+      {{> listaKosciKrotka_k6 nazwa="max-umiejetnosc-F5" }}
+
+      <label>{{localize "NPCForge.LosujZawady"}}</label>
+      <span></span>
+      <input type="checkbox" name="losujZawady-F"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Od"}}</span>
+      <input type="number" name="zawadyOd-F"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Do"}}</span>
+      <input type="number" name="zawadyDo-F"/>
+      <span></span>
+
+      <!-- Zasady rozwoju -->
+      <label>{{localize "NPCForge.PrzestrzegajZasadRozwoju"}}</label>
+      <span></span>
+      <input type="checkbox" name="przestrzegajZasad-F"/>
+      <span></span><span></span><span></span><span></span><span></span>
+
+
+      <!-- Anomalie -->
+      <label>{{localize "NPCForge.ZezwólNaAnomalie"}}</label>
+      <span></span>
+      <input type="checkbox" name="zezwolNaAnomalie-F"/>
+      <span class="npcforge-doPrawej">{{localize "NPCForge.Szansa"}}</span>
+      <input type="number" name="anomalieSzansa-F"/>
+      <span class="npcforge-doLewej">%</span><span></span><span></span>
+
+    </div>
+
+  </div>
+  </div>
+</div>

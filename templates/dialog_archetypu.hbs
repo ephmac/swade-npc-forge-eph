@@ -1,0 +1,317 @@
+<form>
+
+  <div class="npcforge-dialogArchetypuZawartosc">
+
+    {{!-- Nazwa --}}
+    <h3>{{localize "NPCForge.NazwaArchetypu"}}</h3>
+    <input type="text" name="npcforge-nazwaArchetypu" value="" />
+    {{pustaLinia}}
+
+    {{!-- Atrybuty --}}
+    <h3>{{localize "NPCForge.Atrybuty"}}</h3>
+    <p class="hint">{{localize "NPCForge.AtrybutyOpisArchetyp"}}</p>
+    <hr/>
+
+    <div class="npcforge-atrybutyArchetyp">
+
+      <div class="npcforge-liniaAtrybutArchetyp" data-nazwa="zrecznosc">
+        <label>{{localize "NPCForge.Zrecznosc"}}</label>
+        <div class="npcforge-gwiazdki2" data-wartosc="3">
+          <img data-index="1" src="modules/swade-npc-forge-eph/icons/poziomy/tarcza0.png" />
+          <img data-index="2" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="3" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="4" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="5" src="modules/swade-npc-forge-eph/icons/poziomy/ogien0.png" />
+        </div>
+        <input type="hidden" name="npcforge-zrecznoscArchetyp" value="3" />
+      </div>
+
+      <div class="npcforge-liniaAtrybutArchetyp" data-nazwa="spryt">
+        <label>{{localize "NPCForge.Spryt"}}</label>
+        <div class="npcforge-gwiazdki2" data-wartosc="3">
+          <img data-index="1" src="modules/swade-npc-forge-eph/icons/poziomy/tarcza0.png" />
+          <img data-index="2" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="3" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="4" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="5" src="modules/swade-npc-forge-eph/icons/poziomy/ogien0.png" />
+        </div>
+        <input type="hidden" name="npcforge-sprytArchetyp" value="3" />
+      </div>
+
+      <div class="npcforge-liniaAtrybutArchetyp" data-nazwa="duch">
+        <label>{{localize "NPCForge.Duch"}}</label>
+        <div class="npcforge-gwiazdki2" data-wartosc="3">
+          <img data-index="1" src="modules/swade-npc-forge-eph/icons/poziomy/tarcza0.png" />
+          <img data-index="2" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="3" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="4" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="5" src="modules/swade-npc-forge-eph/icons/poziomy/ogien0.png" />
+        </div>
+        <input type="hidden" name="npcforge-duchArchetyp" value="3" />
+      </div>
+
+
+      <div class="npcforge-liniaAtrybutArchetyp" data-nazwa="sila">
+        <label>{{localize "NPCForge.Sila"}}</label>
+        <div class="npcforge-gwiazdki2" data-wartosc="3">
+          <img data-index="1" src="modules/swade-npc-forge-eph/icons/poziomy/tarcza0.png" />
+          <img data-index="2" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="3" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="4" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="5" src="modules/swade-npc-forge-eph/icons/poziomy/ogien0.png" />
+        </div>
+        <input type="hidden" name="npcforge-silaArchetyp" value="3" />
+      </div>
+
+      <div class="npcforge-liniaAtrybutArchetyp" data-nazwa="wigor">
+        <label>{{localize "NPCForge.Wigor"}}</label>
+        <div class="npcforge-gwiazdki2" data-wartosc="3">
+          <img data-index="1" src="modules/swade-npc-forge-eph/icons/poziomy/tarcza0.png" />
+          <img data-index="2" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="3" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="4" src="modules/swade-npc-forge-eph/icons/poziomy/kowadlo0.png" />
+          <img data-index="5" src="modules/swade-npc-forge-eph/icons/poziomy/ogien0.png" />
+        </div>
+        <input type="hidden" name="npcforge-wigorArchetyp" value="3" />
+      </div>
+
+    </div>
+
+    {{!-- Umiejętności --}}
+    <hr/>
+    <h3>{{localize "NPCForge.Umiejetnosci"}}</h3>
+    <p class="hint">{{localize "NPCForge.UmiejetnosciOpisArchetyp"}}</p>
+    <hr/>
+
+    <div id="blok_umiejetnosci_archetyp">
+      <div id="npcforge-listaUmiejetnosciArchetyp" ></div>
+    </div>
+
+
+    {{!-- Przewagi --}}
+    <hr/>
+    <div class="npcforge-naglowekPrzewagiArchetyp">
+      <h3>{{localize "NPCForge.Przewagi"}}</h3>
+      <button type="button" id="otworz_edytor_przewag_archetyp">⚙️</button>
+    </div>
+    <p class="hint">{{localize "NPCForge.PrzewagiOpisArchetyp"}}</p>
+    <hr/>
+
+    <div>
+      <div id="lista_przewag_archetyp"></div>
+    </div>
+
+    <div class="npcforge-przyciskiPlusArchetyp">
+      <button type="button" id="dodaj_przewage_archetyp">➕</button>
+      <button type="button" id="dodaj_grupe_przewag_archetyp">🔖</button>
+      <span></span>
+    </div>
+
+
+    {{!-- Moce --}}
+    <hr/>
+    <div class="npcforge-naglowekMoceArchetyp">
+      <h3>{{localize "NPCForge.Moce"}}</h3>
+      <button type="button" id="otworz_edytor_nadprzyrodzonych_archetyp"><img src="modules/swade-npc-forge-eph/icons/nadprzyrodzone.png" style="width:24px; height:24px; border:none;" /></button>
+      <button type="button" id="npcforge-przyciskUstawieniaMocy">🧠</button>
+      <button type="button" id="otworz_edytor_mocy_archetyp">⚙️</button>
+    </div>
+    <p class="hint">{{localize "NPCForge.MoceOpisArchetyp"}}</p>
+    <hr/>
+
+    <div id="npcforge-ustawieniaMocy" style="display:none;">
+      <h4 class="npcforge-naglowkiUstawienMocy">{{localize "NPCForge.PrzewagiMocy"}}</h4>
+      <p class="hint">{{localize "NPCForge.UstawieniaMocyOpisArchetyp"}}</p>
+      <hr/>
+
+      <div class="npcforge-listaZdolnosci">
+        <label class="npcforge-naglowkiUstawienMocy">{{localize "NPCForge.ZdolnosciNadprzyrodzone"}}</label>
+        <div id="lista-zdolnosci"></div>
+        <div class="npcforge-przyciskiUstawienMocy">
+          <button type="button" id="dodaj-zdolnosc" class="npcforge-przyciskiUstawienMocyPlus">➕</button>
+          <span></span>
+        </div>
+      </div>
+
+      <hr>
+        
+      <div class="npcforge-listaNowychMocy">
+        <label class="npcforge-naglowkiUstawienMocy">{{localize "NPCForge.NoweMoce"}}</label>
+        <div id="lista-nowe-moce"></div>
+        <div class="npcforge-przyciskiUstawienMocy">
+          <button type="button" id="dodaj-nowe-moce" class="npcforge-przyciskiUstawienMocyPlus">➕</button>
+          <span></span>
+        </div>  
+      </div>
+
+      <hr>
+
+      <div>
+        <label class="npcforge-naglowkiUstawienMocy">{{localize "NPCForge.PunktyMocy"}}</label>
+        <div id="lista-punkty-mocy"></div>
+        <div class="npcforge-przyciskiUstawienMocy">
+          <button type="button" id="dodaj-punkty-mocy" class="npcforge-przyciskiUstawienMocyPlus">➕</button>
+          <span></span>
+        </div>  
+      </div>
+
+    </div>
+
+    <div>
+      <div id="lista_mocy_archetyp"></div>
+    </div>
+
+    <div class="npcforge-przyciskiPlusArchetyp">
+      <button type="button" id="dodaj_moc_archetyp">➕</button>
+      <button type="button" id="dodaj_grupe_mocy_archetyp">🔖</button>
+      <span></span>
+    </div>
+
+
+<!-- Pancerz -->
+    <hr/>
+    <div class="npcforge-naglowekPancerzArchetyp">
+      <h3>{{localize "NPCForge.Pancerz"}}</h3>
+      <button type="button" id="otworz_edytor_pancerza_archetyp">⚙️</button>
+    </div>
+    <p class="hint">{{localize "NPCForge.PancerzOpisArchetyp"}}</p>
+    <hr/>
+
+    <!-- Przełącznik trybu -->
+    <div class="npcforge-przelacznik">
+      <span class="npcforge-przelacznikTekst lewy">{{localize "NPCForge.TrybProsty"}}</span>
+
+      <label class="npcforge-przelacznikToggle">
+        <input type="checkbox" id="przelacznikTrybu" name="przelacznikPancerz" />
+        <span class="npcforge-slider"></span>
+      </label>
+
+      <span class="npcforge-przelacznikTekst prawy">{{localize "NPCForge.TrybSzczegolowy"}}</span>
+    </div>
+
+
+    <!-- Zakładki rang -->
+    <div class="npcforge-zakladkiRangi" style="display: none;">
+      {{#each poziomy as |poziom|}}
+        {{#unless (eq poziom "P")}}
+          <button class="npcforge-zakladkaRangi" data-ranga="{{localize (concat 'NPCForge.RangaMap.' poziom)}}">
+            <img src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}.png" />
+          </button>
+        {{/unless}}
+      {{/each}}
+    </div>
+
+    <!-- Sekcja trybu prostego (specjalny przypadek, z własnym data-ranga="Prosty") -->
+    <div class="npcforge-sekcjaRangiProsta npcforge-sekcjaRangi" data-ranga="Prosty">
+      <label class="npcforge-rangiNaglowek" >{{localize "NPCForge.TrybProstyTytul"}}</label>
+    </div>
+
+    <!-- Sekcje rang (dla każdego poziomu) -->
+    <div class="npcforge-sekcjeRangi" style="display: none;">
+      {{#each poziomy as |poziom|}}
+        <div class="npcforge-sekcjaRangi" data-ranga="{{#if (eq poziom 'P')}}Prosty{{else}}{{localize (concat 'NPCForge.RangaMap.' poziom)}}{{/if}}" {{#unless (eq poziom "P")}}style="display: none;"{{/unless}}>
+          <label class="npcforge-rangiNaglowek" >{{localize (concat "NPCForge.RangaMap." poziom)}}</label>
+        </div>
+      {{/each}}
+    </div>
+
+    <!-- Sekcje pancerza (dla każdej lokacji i każdego poziomu) -->
+    {{#each poziomy as |poziom|}}
+      {{#each ../lokacje as |lok|}}
+        <div class="npcforge-sekcjaRangiPancerza" data-ranga="{{#if (eq poziom 'P')}}Prosty{{else}}{{localize (concat 'NPCForge.RangaMap.' poziom)}}{{/if}}" {{#unless (eq poziom "P")}}style="display: none;"{{/unless}}>
+          <div class="npcforge-blokPancerza">
+
+            <div class="npcforge-naglowekPancerz">
+              <span>{{localize (concat "NPCForge." lok.label)}}</span>
+            </div>
+
+            <div id="lista_pancerza_{{lok.kod}}{{poziom}}"></div>
+
+            <div class="npcforge-przyciskiPlusArchetyp">
+              <button type="button" id="dodaj_pancerz_{{lok.kod}}{{poziom}}">➕</button>
+              <button type="button" id="dodaj_grupe_pancerz_{{lok.kod}}{{poziom}}">🔖</button>
+              <span></span>
+            </div>
+
+          </div>
+        </div>
+      {{/each}}
+    {{/each}}
+
+
+<!-- Broń -->
+    <hr/>
+    <div class="npcforge-naglowekBronArchetyp">
+      <h3>{{localize "NPCForge.Bron"}}</h3>
+      <button type="button" id="otworz_edytor_amunicji_archetyp"><img src="modules/swade-npc-forge-eph/icons/amunicja.png" style="width:24px; height:24px; border:none;" /></button>
+      <button type="button" id="otworz_edytor_broni_archetyp">⚙️</button>
+    </div>
+    <p class="hint">{{localize "NPCForge.BronOpisArchetyp"}}</p>
+    <hr/>
+
+    <!-- Przełącznik trybu -->
+    <div class="npcforge-przelacznik">
+      <span class="npcforge-przelacznikTekst lewy">{{localize "NPCForge.TrybProsty"}}</span>
+
+      <label class="npcforge-przelacznikToggle">
+        <input type="checkbox" id="przelacznikTrybuBron" name="przelacznikBron" />
+        <span class="npcforge-slider"></span>
+      </label>
+
+      <span class="npcforge-przelacznikTekst prawy">{{localize "NPCForge.TrybSzczegolowy"}}</span>
+    </div>
+
+
+    <!-- Zakładki rang -->
+    <div class="npcforge-zakladkiRangiBron" style="display: none;">
+      {{#each poziomy as |poziom|}}
+        {{#unless (eq poziom "P")}}
+          <button class="npcforge-zakladkaRangiBron" data-ranga="{{localize (concat 'NPCForge.RangaMap.' poziom)}}">
+            <img src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}.png" />
+          </button>
+        {{/unless}}
+      {{/each}}
+    </div>
+
+    <!-- Sekcje broni (dla każdej rangi, w tym prostego) -->
+    {{#each poziomy as |poziom|}}
+      <div class="npcforge-sekcjaRangiBronWarianty" data-ranga="{{#if (eq poziom 'P')}}Prosty{{else}}{{localize (concat 'NPCForge.RangaMap.' poziom)}}{{/if}}" {{#unless (eq poziom "P")}}style="display: none;"{{/unless}}>
+
+        <!-- Nagłówek rangi -->
+        <label class="npcforge-rangiNaglowek">
+          {{#if (eq poziom "P")}}
+            {{localize "NPCForge.TrybProstyTytulBron"}}
+          {{else}}
+            {{localize (concat "NPCForge.RangaMap." poziom)}}
+          {{/if}}
+        </label>
+
+        <!-- Kontener wariantów -->
+        <div class="npcforge-kontenerWariantowBroni" id="kontener_wariantow_broni_{{poziom}}">
+          <!-- Warianty będą dodawane dynamicznie przez JS -->
+        </div>
+
+        <!-- Przycisk dodania nowego wariantu -->
+        <div class="npcforge-przyciskNowyWariant">
+          <button type="button" class="npcforge-dodajWariantBroni npcforge-przyciskPlusWariant" data-poziom="{{poziom}}">➕</button>
+        </div>
+
+      </div>
+    {{/each}}
+
+
+    {{!-- Item grants --}}
+    <hr/>
+    <div class="npcforge-naglowekItemGrantsArchetyp">
+      <h3>{{localize "NPCForge.ItemGrants"}}</h3>
+    </div>
+    <p class="hint">{{localize "NPCForge.ItemGrantsOpisArchetyp"}}</p>
+    <hr/>
+
+    <div>
+      <div id="lista_itemGrants_archetyp"></div>
+    </div>
+
+  </div>
+
+</form>

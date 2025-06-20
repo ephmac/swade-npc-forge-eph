@@ -1,0 +1,24 @@
+<div class="npcforge-dialogMocy">
+
+  <div class="npcforge-dialogMocy-liniaTagow">
+    
+    <select id="wybor-tagu">
+      <option value="">{{localize "NPCForge.WybierzZListy"}}</option>
+      {{#each tagi}}
+        <option value="{{this}}">{{this}}</option>
+      {{/each}}
+    </select>
+
+    <span></span>
+
+    <button id="edytuj-tagi">⚙️</button>
+    
+  </div>
+
+  <div id="lista-mocy" class="npcforge-dialogMocy-zawartosc">
+    <!--Zawartość-->
+  </div>
+
+{{pustaLinia}}
+
+</div>
