@@ -1,4 +1,4 @@
-# SWADE NPC forge ⫷𝗘𝗣𝗛⫸
+# SWADE NPC Forge ⫷𝗘𝗣𝗛⫸
 
 An NPC generator module for Savage Worlds Adventure Edition in Foundry VTT.
 It helps you create balanced, randomized enemies and NPCs based on archetypes and races using preconfigured logic and options.
