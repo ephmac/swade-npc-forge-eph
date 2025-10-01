@@ -7,7 +7,7 @@ let dialogRasy = null;
 
 export async function otworzKreatorRasy() {
 
-  if (dialogRasy) { dialogRasy.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogRasy) { dialogRasy.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   listaKosci_k4m1();
@@ -27,65 +27,71 @@ export async function otworzKreatorRasy() {
   const content = await foundry.applications.handlebars.renderTemplate("modules/swade-npc-forge-eph/templates/dialog_rasy.hbs", dane);
 
   // Tworzenie dialogu
-  dialogRasy = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogRasa"),
-    content, // z szablonu
-    buttons: {
-      stworz: {
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.TytulDialogRasa") },
+    content,
+    buttons: [
+      {
         label: game.i18n.localize("NPCForge.PrzyciskStworz"),
-        callback: async html => {
-          const formularz = html[0].querySelector("form");
+        action: "stworz",
+        default: true,
+        callback: async (event, btn, dlg) => {
+          const formularz = dlg.element.querySelector("form") || dlg.element;
           const daneFormularza = new FormData(formularz);
-
           await generujRase(daneFormularza);
           odswiezDialogMain();
-        },
-        button: true
+          return "stworz";
+        }
       },
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
+      { label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close" }
+    ],
+    render: async (event, dialog) => {
+      dialogRasy = dialog;
 
-    render: html => {
+      const el = dialog.element;
+      const html = $(el);
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogRasy-okno"); // klasa okna do pliku css
+      queueMicrotask(() => dialog.setPosition({ width: 500 })); // ROZMIAR OKNA wysokość auto
 
-      obslugaUmiejetnosci(html);
-      obslugaPrzewag(html);
-      obslugaZawad(html);
-      obslugaMocy(html);
-      obslugaTablic(html);
-      rozmiar(html);
-      obslugaPrzyciskuStworz(html);
-      dropzone(html);
-      obslugaBroniNaturalnej(html);
-      zabezpieczPola(html);
+        obslugaUmiejetnosci(html);
+        obslugaPrzewag(html);
+        obslugaZawad(html);
+        obslugaMocy(html);
+        obslugaTablic(html);
+        rozmiar(html);
+        obslugaPrzyciskuStworz(html);
+        dropzone(html);
+        obslugaBroniNaturalnej(html);
+        zabezpieczPola(html);
 
-      setTimeout(() => {
+setTimeout(() => {
+  const root = dialog.element;                 // ← bez [0]
+  if (!root?.isConnected) return;
 
-        // Pozycja okna
-          const el = dialogRasy.element[0];
-          const szer = el.offsetWidth;
-          const wys = el.offsetHeight;
-          dialogRasy.setPosition({
-            left: (window.innerWidth - szer) / 2,
-            top: (window.innerHeight - wys) / 2
-          });
-        
-        // Obsluga checkboxa Zwierzęcego Sprytu
-          const checkbox = document.querySelector('input[name="npcforge-zwierzecy_spryt_rasa"]');
-          const tekst = document.querySelector('.npcforge-zwierzecySprytNapisRasa');
-          tekst.style.opacity = checkbox.checked ? "1" : "0.3";
-          checkbox.addEventListener("change", () => {tekst.style.opacity = checkbox.checked ? "1" : "0.3";});
-  
-      }, 50);      
-    },
-      close: () => { dialogRasy = null; }
+  const szer = root.offsetWidth;
+  const wys  = root.offsetHeight;
+
+  dialog.setPosition({
+    left: (window.innerWidth  - szer) / 2,
+    top:  (window.innerHeight - wys)  / 2
   });
-  
-  dialogRasy.render(true);
+
+  // Checkbox „Zwierzęcy Spryt” – szukaj w obrębie okna
+  const checkbox = root.querySelector('input[name="npcforge-zwierzecy_spryt_rasa"]');
+  const tekst    = root.querySelector('.npcforge-zwierzecySprytNapisRasa');
+  if (checkbox && tekst) {
+    tekst.style.opacity = checkbox.checked ? "1" : "0.3";
+    checkbox.addEventListener("change", () => {
+      tekst.style.opacity = checkbox.checked ? "1" : "0.3";
+    });
+  }
+}, 50);
+
+
+      }
+  });
+  dialogRasy = null;
+
 }
 
 
@@ -707,7 +713,7 @@ export async function otworzKreatorRasy() {
 
 async function obslugaPrzyciskuStworz(html) {
   
-  const przyciskStworz = html.find("button[data-button='stworz']");
+  const przyciskStworz = html.find("button[data-action='stworz']");
   const poleNazwa = html.find("[name='npcforge-nazwaRasy']");
 
   // Startowo: blokuj
@@ -762,43 +768,41 @@ async function obslugaPrzyciskuStworz(html) {
 }
 
 function dropzone(html) {
-  const formularz = html[0].querySelector("form.npc-forge-dialogRasy");
+  const root = html[0] || html;
 
-  formularz.addEventListener("dragover", ev => {
+  let formularz = root.querySelector("form.npc-forge-dialogRasy");
+  if (!formularz) {
+    if (root.tagName && root.tagName.toLowerCase() === "form") {
+      formularz = root;                 // DialogV2 form jako root
+    } else {
+      formularz = root.querySelector("form");
+    }
+  }
+  if (!formularz) return;               // defensywnie
+
+  formularz.addEventListener("dragover", (ev) => ev.preventDefault());
+
+  formularz.addEventListener("drop", async (ev) => {
     ev.preventDefault();
-  });
-
-  formularz.addEventListener("drop", async ev => {
-    ev.preventDefault();
-
     let data;
     try {
       const raw = ev.dataTransfer.getData("text/plain");
-      console.log("[DROPZONE] raw transfer data:", raw);
       data = JSON.parse(raw);
-    } catch (e) { return; }
+    } catch { return; }
 
-    const uuid = data?.uuid;
-    if (!uuid) { return; }
-
-    const item = await fromUuid(uuid);
-
-    if (!item) { return; }
+    const item = data?.uuid ? await fromUuid(data.uuid) : null;
+    if (!item) return;
 
     switch (item.type) {
-      case "edge":
-        przewagaDrop(item); break;
-      case "hindrance":
-        zawadaDrop(item); break;
-      case "power":
-        mocDrop(item); break;
-      case "weapon":
-        bronNaturalnaDrop(item); break;
-      default:
-        ui.notifications.warn(game.i18n.localize("NPCForge.PrzeciaganieBladRasa"));
+      case "edge":      return przewagaDrop(item);
+      case "hindrance": return zawadaDrop(item);
+      case "power":     return mocDrop(item);
+      case "weapon":    return bronNaturalnaDrop(item);
+      default: ui.notifications.warn(game.i18n.localize("NPCForge.PrzeciaganieBladRasa"));
     }
   });
 }
+
 
 function zabezpieczPoleLiczbowe(input, min = 0, max = null) {
   input.on("blur", function () {

@@ -112,7 +112,7 @@
     <hr/>
     <div class="npcforge-naglowekMoceArchetyp">
       <h3>{{localize "NPCForge.Moce"}}</h3>
-      <button type="button" id="otworz_edytor_nadprzyrodzonych_archetyp"><img src="modules/swade-npc-forge-eph/icons/nadprzyrodzone.png" style="width:24px; height:24px; border:none;" /></button>
+      <button type="button" id="otworz_edytor_nadprzyrodzonych_archetyp">📜</button>
       <button type="button" id="npcforge-przyciskUstawieniaMocy">🧠</button>
       <button type="button" id="otworz_edytor_mocy_archetyp">⚙️</button>
     </div>
@@ -194,8 +194,11 @@
     <div class="npcforge-zakladkiRangi" style="display: none;">
       {{#each poziomy as |poziom|}}
         {{#unless (eq poziom "P")}}
-          <button class="npcforge-zakladkaRangi" data-ranga="{{localize (concat 'NPCForge.RangaMap.' poziom)}}">
-            <img src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}.png" />
+          <button type="button" class="npcforge-zakladkaRangi" data-ranga="{{localize (concat 'NPCForge.RangaMap.' poziom)}}">
+            <span>
+              <img class="ikona_archetyp_zakladka_dark" src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}C.png" />
+              <img class="ikona_archetyp_zakladka_light" src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}J.png"/>
+            </span>
           </button>
         {{/unless}}
       {{/each}}
@@ -243,7 +246,8 @@
     <hr/>
     <div class="npcforge-naglowekBronArchetyp">
       <h3>{{localize "NPCForge.Bron"}}</h3>
-      <button type="button" id="otworz_edytor_amunicji_archetyp"><img src="modules/swade-npc-forge-eph/icons/amunicja.png" style="width:24px; height:24px; border:none;" /></button>
+      <button type="button" class="npcforge_amunicja_dark" id="otworz_edytor_amunicji_archetyp"><img src="modules/swade-npc-forge-eph/icons/amunicjaC.png" style="width:24px; height:24px; border:none;" /></button>
+      <button type="button" class="npcforge_amunicja_light" id="otworz_edytor_amunicji_archetyp"><img src="modules/swade-npc-forge-eph/icons/amunicjaJ.png" style="width:24px; height:24px; border:none;" /></button>
       <button type="button" id="otworz_edytor_broni_archetyp">⚙️</button>
     </div>
     <p class="hint">{{localize "NPCForge.BronOpisArchetyp"}}</p>
@@ -266,8 +270,11 @@
     <div class="npcforge-zakladkiRangiBron" style="display: none;">
       {{#each poziomy as |poziom|}}
         {{#unless (eq poziom "P")}}
-          <button class="npcforge-zakladkaRangiBron" data-ranga="{{localize (concat 'NPCForge.RangaMap.' poziom)}}">
-            <img src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}.png" />
+          <button type="button" class="npcforge-zakladkaRangiBron" data-ranga="{{localize (concat 'NPCForge.RangaMap.' poziom)}}">
+            <span>
+              <img class="ikona_archetyp_zakladka_dark" src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}C.png" />
+              <img class="ikona_archetyp_zakladka_light" src="modules/swade-npc-forge-eph/icons/rangi/{{poziom}}J.png"/>
+            </span>
           </button>
         {{/unless}}
       {{/each}}

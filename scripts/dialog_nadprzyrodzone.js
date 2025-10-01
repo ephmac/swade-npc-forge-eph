@@ -4,7 +4,7 @@ let dialogNadprzyrodzone = null
 
 export async function otworzEdytorPrzewagNadprzyrodzonych() {
 
-  if (dialogNadprzyrodzone) { dialogNadprzyrodzone.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogNadprzyrodzone) { dialogNadprzyrodzone.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   PustaLiniaHelper();
@@ -14,27 +14,23 @@ export async function otworzEdytorPrzewagNadprzyrodzonych() {
 
   });
 
-  dialogNadprzyrodzone = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogNadprzyrodzone"),
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.TytulDialogNadprzyrodzone") },
     content,
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
-    render: async (html) => {
+    buttons: [
+      { label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }
+    ],
+    render: async (event, dialog) => {
+      dialogNadprzyrodzone = dialog;
+      const el = dialog.element;
+      const html = $(el);
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogNadprzyrodzone-okno"); // klasa okna do pliku css
+      queueMicrotask(() => dialog.setPosition({ width: 650 }));
 
       listaPrzewag(html);
-
-    },
-    close: () => {
-      dialogNadprzyrodzone = null;
     }
   });
-  await dialogNadprzyrodzone.render(true);
+  dialogNadprzyrodzone = null;
 }
 
 

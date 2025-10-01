@@ -4,7 +4,7 @@ let dialogOpcji = null;
 
 export async function otworzOpcje() {
 
-  if (dialogOpcji) { dialogOpcji.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogOpcji) { dialogOpcji.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
   
   // Helpery
   listaKosci_k12();
@@ -19,18 +19,18 @@ export async function otworzOpcje() {
   const content = await foundry.applications.handlebars.renderTemplate("modules/swade-npc-forge-eph/templates/dialog_opcji.hbs", dane);
 
   // Tworzenie dialogu
-  dialogOpcji = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogOpcji"),
-    content, // z szablonu
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij"),
-      }
-    },
-    render: async html => {
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.TytulDialogOpcji") },
+    content,
+    buttons: [
+      { label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }
+    ],
+    render: async (event, dialog) => {
+      dialogOpcji = dialog;
+      const el = dialog.element;
+      const html = $(el);
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogOpcji-okno"); // klasa okna do pliku css
+      queueMicrotask(() => dialog.setPosition({ width: 650 }));
 
       await wczytajWagi(html);
       await zapiszWagi(html);
@@ -44,15 +44,9 @@ export async function otworzOpcje() {
       }
 
       await selectory(html);
-
-    },
-    close: () => { 
-        dialogOpcji = null;
     }
-      
   });
-  
-  await dialogOpcji.render(true);
+  dialogOpcji = null;
 }
 
 async function selectory(html) {

@@ -6,7 +6,7 @@ let tagHookPrzewag = null;
 
 export async function otworzEdytorPrzewag() {
 
-  if (dialogPrzewag) { dialogPrzewag.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogPrzewag) { dialogPrzewag.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   PustaLiniaHelper();
@@ -17,52 +17,27 @@ export async function otworzEdytorPrzewag() {
     tagi
   });
 
-  dialogPrzewag = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogPrzewag"),
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.TytulDialogPrzewag") },
     content,
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
-    render: async (html) => {
+    buttons: [{ label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }],
+    render: async (event, dialog) => {
+      dialogPrzewag = dialog;
+      const el = dialog.element;
+      const html = $(el);
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogPrzewag-okno"); // klasa okna do pliku css
+      queueMicrotask(() => dialog.setPosition({ width: 335 }));
 
-      listaPrzewag(html);
+        listaPrzewag(html);
 
-      // Przycisk
-      html[0].querySelector("#edytuj-tagi").addEventListener("click", () => otworzDialogTagow());
+        // Przycisk
+        html[0].querySelector("#edytuj-tagi").addEventListener("click", () => otworzDialogTagow());
 
-      tagHookPrzewag = Hooks.on("npcforge:tagiZmienione", async () => {
-        const select = html[0].querySelector("#wybor-tagu");
-        if (!select) return;
-
-        const tagi = JSON.parse(game.settings.get("swade-npc-forge-eph", "listaTagow") || "[]");
-        const selected = select.value;
-
-        select.innerHTML = `<option value="">--</option>`;
-        for (const tag of tagi) {
-          const opt = document.createElement("option");
-          opt.value = tag;
-          opt.textContent = tag;
-          if (tag === selected) opt.selected = true;
-          select.appendChild(opt);
-        }
-      });
-
-    },
-    close: () => {
-      dialogPrzewag = null;
-
-      if (tagHookPrzewag !== null) {
-        Hooks.off("npcforge:tagiZmienione", tagHookPrzewag);
-        tagHookPrzewag = null;
-      }
+      tagHookPrzewag = Hooks.on("npcforge:tagiZmienione", () => { /* ... */ });
     }
   });
-  await dialogPrzewag.render(true);
+  dialogPrzewag = null;
+  if (tagHookPrzewag !== null) { Hooks.off("npcforge:tagiZmienione", tagHookPrzewag); tagHookPrzewag = null; }
 }
 
 

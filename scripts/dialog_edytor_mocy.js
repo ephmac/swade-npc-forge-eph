@@ -6,7 +6,7 @@ let tagHookMocy = null;
 
 export async function otworzEdytorMocy() {
 
-  if (dialogMocy) { dialogMocy.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogMocy) { dialogMocy.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   PustaLiniaHelper();
@@ -17,51 +17,27 @@ export async function otworzEdytorMocy() {
     tagi
   });
 
-  dialogMocy = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogMocy"),
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.TytulDialogMocy") },
     content,
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
-    render: async (html) => {
+    buttons: [{ label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }],
+    render: async (event, dialog) => {
+      dialogMocy = dialog;
+      const el = dialog.element;
+      const html = $(el);
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogMocy-okno"); // klasa okna do pliku css
+      queueMicrotask(() => dialog.setPosition({ width: 400 }));
 
-      listaMocy(html);
+        listaMocy(html);
 
-      // Przycisk
-      html[0].querySelector("#edytuj-tagi").addEventListener("click", () => otworzDialogTagow());
+        // Przycisk
+        html[0].querySelector("#edytuj-tagi").addEventListener("click", () => otworzDialogTagow());
 
-      tagHookMocy = Hooks.on("npcforge:tagiZmienione", async () => {
-        const select = html[0].querySelector("#wybor-tagu");
-        if (!select) return;
-
-        const tagi = JSON.parse(game.settings.get("swade-npc-forge-eph", "listaTagow") || "[]");
-        const selected = select.value;
-
-        select.innerHTML = `<option value="">--</option>`;
-        for (const tag of tagi) {
-          const opt = document.createElement("option");
-          opt.value = tag;
-          opt.textContent = tag;
-          if (tag === selected) opt.selected = true;
-          select.appendChild(opt);
-        }
-      });
-    },
-    close: () => {
-      dialogMocy = null;
-
-      if (tagHookMocy !== null) {
-        Hooks.off("npcforge:tagiZmienione", tagHookMocy);
-        tagHookMocy = null;
-      }
+      tagHookMocy = Hooks.on("npcforge:tagiZmienione", () => { /* ... */ });
     }
   });
-  await dialogMocy.render(true);
+  dialogMocy = null;
+  if (tagHookMocy !== null) { Hooks.off("npcforge:tagiZmienione", tagHookMocy); tagHookMocy = null; }
 }
 
 
@@ -137,7 +113,7 @@ async function renderujLinie(moc, aktualnyTag) {
 
       <input type="checkbox" ${zaznaczone ? "checked" : ""} ${!aktualnyTag ? "disabled" : ""}>
 
-      <select name="ranga">
+      <select name="ranga" style="width:150px;">
         <option value="0" ${ranga === "0" ? "selected" : ""}>${game.i18n.localize("NPCForge.BezRangi")}</option>
         <option value="1" ${ranga === "1" ? "selected" : ""}>${game.i18n.localize("NPCForge.Nowicjusz")}</option>
         <option value="2" ${ranga === "2" ? "selected" : ""}>${game.i18n.localize("NPCForge.Doswiadczony")}</option>

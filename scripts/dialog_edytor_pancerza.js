@@ -6,7 +6,7 @@ let tagHookPancerza = null;
 
 export async function otworzEdytorPancerza() {
 
-  if (dialogPancerza) { dialogPancerza.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogPancerza) { dialogPancerza.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   PustaLiniaHelper();
@@ -17,52 +17,26 @@ export async function otworzEdytorPancerza() {
     tagi
   });
 
-  dialogPancerza = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogPancerza"),
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.TytulDialogPancerza") },
     content,
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
-    render: async (html) => {
+    buttons: [{ label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }],
+    render: async (event, dialog) => {
+      dialogPancerza = dialog;
+      const el = dialog.element;
+      const html = $(el);
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogPancerza-okno"); // klasa okna do pliku css
+      queueMicrotask(() => dialog.setPosition({ width: 335 }));
 
-      listaPancerza(html);
+            listaPancerza(html);
 
-      // Przycisk
-      html[0].querySelector("#edytuj-tagi").addEventListener("click", () => otworzDialogTagow());
-
-      tagHookPancerza = Hooks.on("npcforge:tagiZmienione", async () => {
-        const select = html[0].querySelector("#wybor-tagu");
-        if (!select) return;
-
-        const tagi = JSON.parse(game.settings.get("swade-npc-forge-eph", "listaTagow") || "[]");
-        const selected = select.value;
-
-        select.innerHTML = `<option value="">--</option>`;
-        for (const tag of tagi) {
-          const opt = document.createElement("option");
-          opt.value = tag;
-          opt.textContent = tag;
-          if (tag === selected) opt.selected = true;
-          select.appendChild(opt);
-        }
-      });
-
-    },
-    close: () => {
-      dialogPancerza = null;
-
-      if (tagHookPancerza !== null) {
-        Hooks.off("npcforge:tagiZmienione", tagHookPancerza);
-        tagHookPancerza = null;
-      }
+        // Przycisk
+        html[0].querySelector("#edytuj-tagi").addEventListener("click", () => otworzDialogTagow());
+      tagHookPancerza = Hooks.on("npcforge:tagiZmienione", () => { /* ... */ });
     }
   });
-  await dialogPancerza.render(true);
+  dialogPancerza = null;
+  if (tagHookPancerza !== null) { Hooks.off("npcforge:tagiZmienione", tagHookPancerza); tagHookPancerza = null; }
 }
 
 

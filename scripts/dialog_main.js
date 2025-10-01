@@ -8,7 +8,7 @@ let dialogMain = null;
 
 export async function otworzDialog() {
 
-  if (dialogMain) { dialogMain.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogMain) { dialogMain.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Pobieranie kompendiów z ustawień
   const archetypyComp = game.settings.get("swade-npc-forge-eph", "kompendiumArchetypy");
@@ -31,15 +31,18 @@ export async function otworzDialog() {
   const content = await foundry.applications.handlebars.renderTemplate("modules/swade-npc-forge-eph/templates/dialog_main.hbs", dane);
     
   // Tworzenie dialogu
-  dialogMain = new Dialog({
-    title: "SWADE NPC Forge",
-    content, // z szablonu
-    classes: ["npc-forge-dialog"],
-    buttons: {
-      generuj: {
+    await foundry.applications.api.DialogV2.wait({
+    window: { title: "SWADE NPC Forge" },
+    content,
+    buttons: [
+      {
         label: game.i18n.localize("NPCForge.PrzyciskGeneruj"),
-        callback: async html => {
-          const formularz = html[0].querySelector("form");
+        action: "generuj",
+        default: true,
+        callback: async (event, btn, dlg) => {
+         
+          const outer = dlg.element;
+          const formularz = outer.querySelector("form") || outer;
           const daneFormularza = new FormData(formularz);
 
           const liczba = parseInt(daneFormularza.get("liczba")) || 1;
@@ -50,44 +53,32 @@ export async function otworzDialog() {
             daneFormularza.set("nazwa", nowaNazwa);
             await generujNPC(daneFormularza);
           }
+          return "generuj";
         }
       },
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      },
-    },
-    
-    render: html => {
+      { label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close" }
+    ],
+    render: (event, dialog) => {
+      dialogMain = dialog;
+      window.dialogMainInstance = dialog;
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogMain-okno"); // klasa okna do pliku css
+      const el = dialog.element;
+      const html = $(el);
+
+      //queueMicrotask(() => dialog.setPosition({ width: 450, height: 360 })); // ROZMIAR OKNA ALE NA RAZIE GENERUJE SIĘ AUTOMATYCZNIE< WIĘC ZAKOMENTOWANE
 
       liczbaPostaci(html);
       obslugaPrzyciskuGeneruj(html);
 
-      const przyciskKreatorRasy = html[0].querySelector(".kreator-rasy");
-      const przyciskKreatorArchetypu = html[0].querySelector(".kreator-archetypu");
-      const przyciskOpcji = html[0].querySelector("#otworz_opcje_generatora");
-      const przyciskWsparcia = html[0].querySelector("#otworz_wsparcie");
-    
-      przyciskKreatorRasy?.addEventListener("click", () => {
-        otworzKreatorRasy();
-      });
-    
-      przyciskKreatorArchetypu?.addEventListener("click", () => {
-        otworzKreatorArchetypu();
-      });
-      przyciskOpcji?.addEventListener("click", () => {
-        otworzOpcje();
-      });
-      przyciskWsparcia?.addEventListener("click", () => {
-        otworzDialogWsparcia()
-      });
-    },
-      close: () => { dialogMain = null; }
+      el.querySelector(".kreator-rasy")?.addEventListener("click", () => otworzKreatorRasy());
+      el.querySelector(".kreator-archetypu")?.addEventListener("click", () => otworzKreatorArchetypu());
+      el.querySelector("#otworz_opcje_generatora")?.addEventListener("click", () => otworzOpcje());
+      el.querySelector("#otworz_wsparcie")?.addEventListener("click", () => otworzDialogWsparcia());
+    }
   });
-  window.dialogMainInstance = dialogMain;
-  dialogMain.render(true);
+  // po zamknięciu:
+  dialogMain = null;
+  window.dialogMainInstance = null;
 }   
 
 export function odswiezDialogMain() {
@@ -112,7 +103,7 @@ async function liczbaPostaci(html) {
 }
 
 async function obslugaPrzyciskuGeneruj(html) {
-  const przyciskGeneruj = html.find("button[data-button='generuj']");
+  const przyciskGeneruj = html.find("button[data-action='generuj']");
   const poleNazwa = html.find("input[name='nazwa']");
   const poleArchetyp = html.find("select[name='archetyp']");
   const poleRasa = html.find("select[name='rasa']");

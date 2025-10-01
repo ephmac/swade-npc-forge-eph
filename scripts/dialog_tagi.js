@@ -5,7 +5,7 @@ let htmlDialogTagow = null;
 
 export async function otworzDialogTagow() {
 
-  if (dialogTagow) { dialogTagow.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogTagow) { dialogTagow.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   PustaLiniaHelper();
@@ -16,30 +16,24 @@ export async function otworzDialogTagow() {
     tagi
   });
 
-  dialogTagow = new Dialog({
-    title: game.i18n.localize("NPCForge.DialogTagowTytul"),
+  await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.DialogTagowTytul") },
     content,
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
-    render: (html) => {
+    buttons: [
+      { label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }
+    ],
+    render: (event, dialog) => {
+      dialogTagow = dialog;
+      const el = dialog.element;
+      const $html = $(el);
 
-      htmlDialogTagow = html;
+      queueMicrotask(() => dialog.setPosition({ width: 250 }));
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogTagow-okno");
-
-      listaTagow(html, tagi);
-    
-    },
-    close: () => {
-      dialogTagow = null;
+      htmlDialogTagow = $html;          // utrzymujemy typ jak wcześniej (jQuery)
+      listaTagow($html, tagi);
     }
   });
-
-  await dialogTagow.render(true);
+  dialogTagow = null;
 }
 
 

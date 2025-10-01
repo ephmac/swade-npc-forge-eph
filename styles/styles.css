@@ -15,30 +15,34 @@
 
 /* MAIN */
 
-  .npcforge-dialogMain-okno {
-    width: 450px !important;
-    height: 360px;
-    max-height: 90vh;
-  }
   .npcforge-mainPrzyciski {
     display: grid;
     grid-template-columns: 1fr 1fr 40px 40px;
     align-items: center;
     gap: 4px;
-    margin-bottom: 10px;
+    margin-bottom: 2px;
   }
   .npcforge-mainPrzyciski img {
     width: 20px;
     height: 20px;
     border: none;
   }
+  .npcforge-mainPrzyciski .button,
   .npcforge-mainPrzyciski button {
-    height: 100%;
-    padding: 4px 4px;
-    display: flex;
+    height: 40px;
+    padding: 0 8px;
+    display: inline-flex;
     align-items: center;
     justify-content: center;
-    font-size: 14px;
+    line-height: 1.1;
+  }
+  .npcforge-mainPrzyciski #otworz_opcje_generatora {
+    font-size: 23px;
+  }
+  .npcforge-mainPrzyciski #otworz_wsparcie {
+    font-size: 23px;
+    transform: rotate(90deg);  /* obraca o 180 stopni */
+    display: inline-block;      /* musi być blok/inline-block, żeby transform zadziałał */
   }
   .npcforge-main {
     display: grid;
@@ -47,16 +51,10 @@
     text-align: center;
     text-align-last: center;
     gap: 4px;
-    margin-bottom: 10px;
   }
 
 /* OPCJE */
 
-  .npcforge-dialogOpcji-okno {
-    width: 650px !important;
-    height: 700px;
-    max-height: 90vh;
-  }
     .npcforge-dialogOpcji-zawartosc {
     overflow-y: auto;
     max-height: 600px; /* wysokość zawartości */
@@ -98,21 +96,20 @@
   .npcforge-naglowekBloku .hint {
     font-size: 12px;
   }
-  .npcforge-naglowekBloku img {
-    width: 20px;
-    height: 20px;
-    border: none;
-  }
   .npcforge-naglowekBloku label {
     font-weight: bold;
     font-size: 18px;
   }
   .npcforge-blokTypu {
-    border: 1px solid #aaa;
     border-radius: 6px;
     margin-bottom: 6px;
     padding: 8px;
-    background-color: #f0f0f0;
+    border: 1px solid #C8BFAF;
+    background-color: #F5F1E9;
+  }
+  .theme-dark .npcforge-blokTypu {
+    background: #363636;
+    border: 1px solid #555;
   }
   .npcforge-ikonaRangi img {
     height: 20px;
@@ -136,9 +133,11 @@
     text-align-last: center;
   }
   .npcforge-gridTypu select:disabled {
-    background-color: #cccccc;
+    background-color: #ababab;
   }
-
+  .theme-dark .npcforge-gridTypu select:disabled {
+    background-color: #222;
+  }
   .npcforge-doPrawej {
     text-align: right !important;
     justify-self: end;
@@ -148,13 +147,25 @@
     justify-self: start;
   }
 
+  /*przełączanie ikon we wszystkich blokach po zmianie trybu jasnego i ciemnego foundry*/
+  .npcforge_ikona_blok_wrap {
+    position: relative;
+    height: 20px;
+    display: flex;
+    justify-content: center;
+  }
+  .npcforge_ikona_blok_wrap img {
+    position: absolute;
+    width: 20px;
+    height: 20px;
+  }
+  .theme-dark .ikona_blok_light,
+  .theme-light .ikona_blok_dark {
+    opacity: 0;     /*Przełączanie ikony*/
+  }
+
 /* DIALOG RASA */
 
-  .npcforge-dialogRasy-okno {
-    width: 500px !important;
-    height: 700px;
-    max-height: 90vh;
-  }
   .npcforge-dialogRasyZawartosc {
     overflow-y: auto;
     max-height: 620px; /* wysokość zawartości */
@@ -256,10 +267,10 @@
   }
   .npcforge-pozostaleModyfikatoryRasa {
     display: grid;
-    grid-template-columns: auto 60px auto 60px;
+    grid-template-columns: auto 65px auto 65px;
     align-items: center;
     column-gap: 8px;
-    row-gap: 4px;
+    row-gap: 1px;
   }
   #npcforge-listaArkanRasa {
     display: grid;
@@ -280,7 +291,7 @@
   }
   .npcforge-linia-umiejetnosci {
     display: grid;
-    grid-template-columns: 250px 50px 50px 1fr 40px;
+    grid-template-columns: 250px 65px 65px 1fr 40px;
     align-items: center;
     gap: 4px;
     margin-bottom: 6px;
@@ -327,11 +338,6 @@
 
 /* DIALOG ARCHETYP */
 
-  .npcforge-dialogArchetypu-okno {
-    width: 500px !important;
-    height: 700px;
-    max-height: 90vh;
-  }
   .npcforge-dialogArchetypuZawartosc {
     overflow-y: auto;
     max-height: 620px; /* wysokość zawartości */
@@ -350,13 +356,16 @@
     margin-bottom: 8px;
     padding: 6px 8px;
     border-radius: 6px;
-    background: rgba(0, 0, 0, 0.03);
-    box-shadow: inset 0 0 2px rgba(0, 0, 0, 0.1);
+    border: 1px solid #C8BFAF;
+    background-color: #F5F1E9;
+  }
+  .theme-dark .npcforge-liniaAtrybutArchetyp {
+    background: #363636;
+    border: 1px solid #555;
   }
   .npcforge-liniaAtrybutArchetyp label {
     font-weight: 600;
     font-size: 14px;
-    color: #222;
   }
   .npcforge-liniaAtrybutArchetyp .npcforge-gwiazdki2 {
     display: flex;
@@ -376,20 +385,23 @@
     text-align: center;
     padding: 6px;
     border-radius: 6px;
-    background: rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
+    border: 1px solid #C8BFAF;
+    background-color: #F5F1E9;
+  }
+  .theme-dark .npcforge-kafelekUmiejetnosc {
+    background: #363636;
+    border: 1px solid #555;
   }
   .npcforge-kafelekUmiejetnosc label {
     font-size: 14px;
     font-weight: 600;
-    color: #222;
     text-align: center;
     margin-bottom: 4px;
   }
   .npcforge-kafelekUmiejetnosc .npcforge-gwiazdki2 {
     margin-top: 2px;
     display: flex;
-    gap: 4px;
+    gap: 3px;
     justify-content: center;
   }
   .npcforge-kafelekUmiejetnoscNadprzyrodzona {
@@ -399,21 +411,27 @@
     text-align: center;
     padding: 6px;
     border-radius: 6px;
-    background: rgba(80, 0, 120, 0.07);
-    box-shadow: inset 0 0 3px rgba(100, 0, 130, 0.2);
+    border: 1px solid #999;
+    background-color: #EEF1F7;
   }
   .npcforge-kafelekUmiejetnoscNadprzyrodzona label {
-    content: "✨ ";
     font-size: 14px;
     font-weight: 600;
-    color: #8855cc;
+    color: #444;
     text-align: center;
     margin-bottom: 4px;
+  }
+  .theme-dark .npcforge-kafelekUmiejetnoscNadprzyrodzona {
+    background-color: #2C2F3A;
+    border: 1px solid #666E7A;
+  }  
+  .theme-dark .npcforge-kafelekUmiejetnoscNadprzyrodzona label {
+    color: #E0E3F0;
   }
   .npcforge-kafelekUmiejetnoscNadprzyrodzona .npcforge-gwiazdki2 {
     margin-top: 2px;
     display: flex;
-    gap: 4px;
+    gap: 3px;
     justify-content: center;
   }
   .npcforge-przyciskiPlusArchetyp {
@@ -460,43 +478,30 @@
   display: grid;
   grid-template-columns: 40px 1fr;
   align-items: center;
-}
+  }
   #npcforge-ustawieniaMocy {
-    background-color: #dddddd;
-    border: 1px solid #ccc;
+    border: 1px solid #C8BFAF;
+    background-color: #F5F1E9;
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 16px;
   }
+  .theme-dark #npcforge-ustawieniaMocy{
+    background: #363636;
+    border: 1px solid #555;
+  }
   .npcforge-naglowkiUstawienMocy {
     font-size: 1.05em;
     font-weight: bold;
-    color: #333;
     text-align: center;
     text-transform: uppercase;
     letter-spacing: 0.5px;
     margin-top: 8px;
     margin-bottom: 4px;
   }
-  .npcforge-przyciskiUstawienMocyPlus,
-  .npcforge-usunPrzyciskMoce {
-        font-size: 18px;
-      font-weight: bold;
-      width: 28px;
-      height: 28px;
-      border: 1px solid #bbb;
-      background-color: #f3f3f3;
-      border-radius: 4px;
-      color: #444;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      cursor: pointer;
-      padding: 0;
-  }
   .npcforge-liniaZdolnosci1 {
     display: grid;
-    grid-template-columns: 300px 50px 50px 40px;
+    grid-template-columns: 1fr 55px 55px 30px;
     align-items: center;
     gap: 4px;
     margin-top: 12px;
@@ -505,7 +510,7 @@
   }
   .npcforge-liniaZdolnosci2 {
     display: grid;
-    grid-template-columns: 150px 120px 70px 100px;
+    grid-template-columns: 1fr 120px 70px 100px;
     align-items: center;
     gap: 2px;
     text-align: center;
@@ -541,45 +546,7 @@
   .npcforge-listaNowychMocy {
     margin-bottom: 12px;
   }
-  #npcforge-kafelkiPrzewagMocyArchetyp {
-    display: grid;
-    grid-template-columns: 1fr 1fr;
-    gap: 12px;
-    padding: 8px 4px;
-  }
-  .npcforge-kafelekPrzewagiMocy {
-    display: grid;
-    grid-template-rows: auto auto;
-    justify-items: center;
-    text-align: center;
-    padding: 6px;
-    border-radius: 6px;
-    background: rgba(0, 0, 0, 0.05);
-    box-shadow: inset 0 0 3px rgba(0, 0, 0, 0.1);
-  }
-  .npcforge-kafelekPrzewagiMocy label {
-    font-size: 14px;
-    font-weight: 600;
-    color: #222;
-    text-align: center;
-    margin-bottom: 4px;
-  }
-  .npcforge-kafelekPrzewagiMocy select {
-    width: 100%;
-    padding: 2px 4px;
-    font-size: 14px;
-    text-align-last: center;
-  }
-  .npcforge-pozostaleMoceArchetyp {
-    display: grid;
-    grid-template-columns: 250px 150px 1fr;
-    align-items: center;
-    gap: 4px;
-    margin-bottom: 6px;
-  }
-  .npcforge-pozostaleMoceArchetyp label {
-    text-align: center;
-  }
+  
   .npcforge-liniaMocArchetyp {
     display: grid;
     grid-template-columns: 250px 150px 1fr 40px;
@@ -656,12 +623,17 @@
     transform: translateX(24px);
   }
   .npcforge-blokPancerza {
-    background-color: #dddddd;
-    border: 1px solid #ccc;
+    border: 1px solid #C8BFAF;
+    background-color: #F5F1E9;
     border-radius: 8px;
     padding: 12px;
     margin-bottom: 16px;
   }
+  .theme-dark .npcforge-blokPancerza{
+    background: #363636;
+    border: 1px solid #555;
+  }
+
   .npcforge-blokPancerza .npcforge-naglowekPancerz {
     margin-top: 0;
     margin-bottom: 8px;
@@ -670,7 +642,6 @@
   .npcforge-naglowekPancerz {
   font-size: 1.05em;
   font-weight: bold;
-  color: #333;
   text-align: center;
   text-transform: uppercase;
   letter-spacing: 0.5px;
@@ -682,7 +653,7 @@
   }
   .npcforge-liniaPancerzaArchetyp {
     display: grid;
-    grid-template-columns: 150px 30px 90px 1fr 40px;
+    grid-template-columns: 150px 30px 80px 1fr 30px;
     align-items: center;
     gap: 2px;
     margin-bottom: 6px;
@@ -720,6 +691,10 @@
         flex-direction: row;
         justify-content: start;
   }
+  .theme-dark .npcforge_lokacje_pancerz_light,
+  .theme-light .npcforge_lokacje_pancerz_dark {
+    display: none;
+  }
   .npcforge-zakladkiRangi,
   .npcforge-zakladkiRangiBron {
     display: flex;
@@ -748,6 +723,10 @@
     display: block;
     margin: auto;
   }
+  .theme-dark .ikona_archetyp_zakladka_light,
+  .theme-light .ikona_archetyp_zakladka_dark {
+    display: none;     /*Przełączanie ikony*/
+  }
   .npcforge-zakladkaRangi.active,
   .npcforge-zakladkaRangiBron.active {
     outline: 2px solid #888;
@@ -760,8 +739,7 @@
   .npcforge-rangiNaglowek {
     font-size: 1.1em;
     font-weight: bold;
-    color: #444;
-    border-bottom: 1px solid #999;
+    border-bottom: 1px solid;
     margin-top: 12px;
     margin-bottom: 8px;
     padding-bottom: 4px;
@@ -771,15 +749,9 @@
     width: 100%;
     text-align: center;
   }
-  .npcforge-brakWszsytkie {
-      display: grid;
-      grid-template-columns: 150px 30px 90px 1fr 40px;
-      align-items: center;
-      gap: 2px;
-      margin-bottom: 6px;
-  }
-  .npcforge-brakWszsytkie label {
-    text-align: center;
+  .theme-dark .npcforge_amunicja_light,
+  .theme-light .npcforge_amunicja_dark {
+    display: none;
   }
   .npcforge-przyciskNowyWariant {
     display: grid;
@@ -817,14 +789,12 @@
   }
   .npcforge-linia-bron {
     display: grid;
-    grid-template-columns: 1fr auto auto 120px 40px;
+    grid-template-columns: 1fr auto auto 120px 30px;
     grid-template-rows: auto auto;
     gap: 4px 8px;
     align-items: center;
     margin-bottom: 4px;
     padding: 8px;
-    background: #eaeaea;
-    border-radius: 6px;
   }
   .npcforge-linia-bron select {
     width: 100%;
@@ -852,17 +822,8 @@
   .npcforge-poziomOslony {
     font-size: 14px;
     font-weight: bold;
-    color: #333;
-    text-shadow: 1px 1px 2px #fff;
   }
-  .npcforge-usunBronSlot {
-    font-size: 18px;
-    padding: 2px 6px;
-    background: #ccc;
-    border: none;
-    border-radius: 4px;
-    cursor: pointer;
-  }
+
   .npcforge-blokAmunicji {
     grid-column: 1 / -1;
     display: flex;
@@ -885,50 +846,17 @@
     text-align: left;
   }
   .npcforge-wariantBroni {
-    background: #eaeaea;
     border-radius: 8px;
     padding: 10px 12px;
     display: flex;
     flex-direction: column;
     gap: 8px;
-    border: 1px solid #ccc;
+    border: 1px solid #C8BFAF;
+    background-color: #F5F1E9;
   }
-  .npcforge-liniaZIkona {
-    display: flex;
-    align-items: center;
-    text-align: center;
-    margin: 12px 0;
-    font-size: 18px;
-    color: #444;
-  }
-  .npcforge-liniaZIkona::before,
-  .npcforge-liniaZIkona::after {
-    content: "";
-    flex: 1;
-    border-bottom: 3px solid #888;
-    opacity: 0.7;
-  }
-  .npcforge-liniaZIkona:not(:empty)::before {
-    margin-right: 0.75em;
-  }
-  .npcforge-liniaZIkona:not(:empty)::after {
-    margin-left: 0.75em;
-  }
-  .npcforge-przyciskPlusWariant,
-  .npcforge-przyciskMinusWariant {
-    font-size: 18px;
-    font-weight: bold;
-    width: 28px;
-    height: 28px;
-    border: 1px solid #bbb;
-    background-color: #f3f3f3;
-    border-radius: 4px;
-    color: #444;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    cursor: pointer;
-    padding: 0;
+  .theme-dark .npcforge-wariantBroni {
+    background: #363636;
+    border: 1px solid #555;
   }
   .npcforge-selectBroni {
     min-width: 120px;
@@ -953,19 +881,19 @@
     height: 26px;
     line-height: 26px;
     padding: 0 6px;
-    border: 1px solid #bbb;
-    border-radius: 4px;
-    background-color: #f3f3f3;
-    color: #333;
     text-align: center;
     appearance: none;
   }
   .npcforge-lacznikLubowy {
-    background: #eaeaea;
-    border: 1px solid #ccc;
     border-radius: 6px;
     padding: 4px 8px;
     box-shadow: 0 0 3px #888;
+    border: 1px solid #C8BFAF;
+    background-color: #F5F1E9;
+  }
+  .theme-dark .npcforge-lacznikLubowy {
+    background: #363636;
+    border: 1px solid #555;
   }
   .npcforge-liniaItemGrant {
     display: grid;
@@ -999,12 +927,6 @@
 
 /* DIALOG PRZEWAG */
 
-  .npcforge-dialogPrzewag-okno {
-    width: 315px !important;
-    height: 700px;
-    max-height: 90vh;
-    overflow: hidden;
-  }
   .npcforge-dialogPrzewag {
     height: 100%;
     overflow: hidden; /* też ważne */
@@ -1025,12 +947,6 @@
 
 /* DIALOG MOCY */
 
-  .npcforge-dialogMocy-okno {
-    width: 400px !important;
-    height: 700px;
-    max-height: 90vh;
-    overflow: hidden;
-  }
   .npcforge-dialogMocy {
     height: 100%;
     overflow: hidden; /* też ważne */
@@ -1051,12 +967,6 @@
 
 /* DIALOG PANCERZA */
 
-  .npcforge-dialogPancerza-okno {
-    width: 315px !important;
-    height: 700px;
-    max-height: 90vh;
-    overflow: hidden;
-  }
   .npcforge-dialogPancerza {
     height: 100%;
     overflow: hidden; /* też ważne */
@@ -1077,12 +987,6 @@
 
 /* DIALOG BRONI */
 
-  .npcforge-dialogBroni-okno {
-    width: 315px !important;
-    height: 700px;
-    max-height: 90vh;
-    overflow: hidden; /* ważne! inaczej wszystko się przewija razem */
-  }
   .npcforge-dialogBroni {
     height: 100%;
     overflow: hidden; /* też ważne */
@@ -1103,12 +1007,6 @@
 
   /* DIALOG AMUNICJI */
 
-  .npcforge-dialogAmunicji-okno {
-    width: 500px !important;
-    height: 700px;
-    max-height: 90vh;
-    overflow: hidden;
-  }
   .npcforge-dialogAmunicji {
     height: 100%;
     overflow: hidden; /* też ważne */
@@ -1133,12 +1031,6 @@
 
   /* DIALOG MOCE NADPRZYRODZONE */
 
-  .npcforge-dialogNadprzyrodzone-okno {
-    width: 650px !important;
-    height: 700px;
-    max-height: 90vh;
-    overflow: hidden;
-  }
   .npcforge-dialogNadprzyrodzone {
     height: 100%;
     overflow: hidden; /* też ważne */
@@ -1161,12 +1053,6 @@
 
 /* DIALOG TAGÓW */
 
-  .npcforge-dialogTagow-okno {
-    width: 250px !important;
-    height: 480px;
-    max-height: 90vh;
-    overflow: hidden; /* ważne! inaczej wszystko się przewija razem */
-  }
   .npcforge-dialogTagi {
     height: 100%;
     overflow: hidden; /* też ważne */
@@ -1186,9 +1072,12 @@
     grid-template-columns: 150px 1fr 40px;
     align-items: center;
     padding: 4px 8px;
-    background: #f0f0f0;
+    background: #F5F1E9;
     border-radius: 4px;
     margin-bottom: 4px;
+  }
+  .theme-dark .npcforge-tagLinia {
+    background: #363636;
   }
   .npcforge-dodajTag input,
   .npcforge-dodajTag button {

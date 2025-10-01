@@ -1,15 +1,15 @@
 let dialogWsparcie = false;
 
-export function otworzDialogWsparcia() {
+export async function otworzDialogWsparcia() {
 
-  if (dialogWsparcie) { dialogWsparcie.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogWsparcie) { dialogWsparcie.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
     const lang = {
         "pl": {
             Tytul: "Wesprzyj Twórcę",
             Powitanie: "Dzięki, że korzystasz z mojego modułu! ❤️",
             Tresc: "Jeśli chcesz pomóc w jego rozwoju, możesz:",
-            Patreon: "Wesprzeć mnie na Patronite",
+            Patreon: "Wesprzeć mnie na Patreonie",
             Kofi: "Postawić mi kawę na Ko-fi",
             Discord: "Dołączyć do Discorda",
             Footer: "Każda forma wsparcia daje mi więcej czasu na rozwój i aktualizacje!",
@@ -165,15 +165,15 @@ export function otworzDialogWsparcia() {
         </div>
   `;
 
-    dialogWsparcie = new Dialog({
-        title: t("Tytul"),
-        content,
-        buttons: {
-        close: {
-            label: t("Zamknij"),
-            callback: () => dialogWsparcie = false
-        }
-        },
-        close: () => dialogWsparcie = false
-    }).render(true);
+    await foundry.applications.api.DialogV2.wait({
+    window: { title: t("Tytul") },
+    content,
+    buttons: [
+        { label: t("Zamknij"), action: "close", default: true }
+    ],
+    render: (event, dialog) => {
+        dialogWsparcie = dialog;
+    }
+    });
+    dialogWsparcie = null;
 }

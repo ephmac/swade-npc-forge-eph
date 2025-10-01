@@ -4,7 +4,7 @@ let dialogAmunicji = null
 
 export async function otworzEdytorAmunicji() {
 
-  if (dialogAmunicji) { dialogAmunicji.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogAmunicji) { dialogAmunicji.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   PustaLiniaHelper();
@@ -14,27 +14,25 @@ export async function otworzEdytorAmunicji() {
 
   });
 
-  dialogAmunicji = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogAmunicji"),
+  const action = await foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.TytulDialogAmunicji") },
     content,
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
-    render: async (html) => {
+    buttons: [
+      { label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }
+    ],
+    render: (event, dialog) => {
+      dialogAmunicji = dialog;
+      const el = dialog.element;
+      //el.classList.add("npcforge-dialogAmunicji-okno");
+      const $html = $(el);
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogAmunicji-okno"); // klasa okna do pliku css
+      queueMicrotask(() => dialog.setPosition({ width: 600 }));
 
-      listaAmunicji(html);
-
-    },
-    close: () => {
-      dialogAmunicji = null;
+      listaAmunicji($html);
     }
   });
-  await dialogAmunicji.render(true);
+  dialogAmunicji = null; // po zamknięciu
+
 }
 
 
@@ -92,9 +90,17 @@ async function renderujLinie(bron, amunicjeZKompendium) {
       <span class="${istnieje ? "npcforge-alert-ukryty" : ""}">❗</span>
       <span><strong>${bron.name}</strong></span>
       <span></span>
-      <img src="modules/swade-npc-forge-eph/icons/amunicja.png" style="width:24px; height:24px; border:none;" />
+      <img class="npcforge_amunicja_dark" src="modules/swade-npc-forge-eph/icons/amunicjaC.png" style="width:24px; height:24px; border:none;" />
+      <img  class="npcforge_amunicja_light"src="modules/swade-npc-forge-eph/icons/amunicjaJ.png" style="width:24px; height:24px; border:none;" />
       <input type="number" name="npcforge-iloscAmunicji" value="${wartoscFlagi}" />
       <span>${amunicja}</span>
+
+      <style>
+        .theme-dark .npcforge_amunicja_light, 
+        .theme-light .npcforge_amunicja_dark {
+          display: none;
+        }
+      </style>
   `;
 
   const input = div.querySelector('input[name="npcforge-iloscAmunicji"]');

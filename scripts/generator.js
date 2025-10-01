@@ -729,15 +729,26 @@ export async function generujNPC(daneFormularza){
 
             for (let i = 0; i < przewagi.length; i++) {
                 const p = przewagi[i];
-              
+                
                 if (p.wykupiono === true) continue;
                 if (p.warunkiSpelnione !== true) continue;
 
-                for (let j = 0; j < wagiMapa[p.waga]; j++) {
-                    listaLosowania.push(p);
-                }
+                if (p.waga === 5) listaLosowania.push(p);
             }
 
+            if (listaLosowania.length === 0) {
+                for (let i = 0; i < przewagi.length; i++) {
+                    const p = przewagi[i];
+                
+                    if (p.wykupiono === true) continue;
+                    if (p.warunkiSpelnione !== true) continue;
+
+                    for (let j = 0; j < wagiMapa[p.waga]; j++) {
+                        listaLosowania.push(p);
+                    }
+                }
+            }
+            
             if (listaLosowania.length === 0) break;
 
             const los = listaLosowania[Math.floor(Math.random() * listaLosowania.length)];
@@ -1761,15 +1772,23 @@ const aktor = await Actor.create({
 
 // zawady
     const zawadyDoDodania = [];
+    let zawadyRasaLista = rasaDane.zawady;
 
     for (const z of zawady) {
-    const item = await znajdzItemSwade(z.id, "zawady");
-    if (item) zawadyDoDodania.push(item.toObject());
-    else ui.notifications.warn(`Nie znaleziono zawady: ${z.nazwa || z.id}`);
+        const item = await znajdzItemSwade(z.id, "zawady");
+        if (item) zawadyDoDodania.push(item.toObject());
+        else ui.notifications.warn(`Nie znaleziono zawady: ${z.nazwa || z.id}`);
     }
 
-    await aktor.createEmbeddedDocuments("Item", zawadyDoDodania);
+    for (const z of zawadyRasaLista) {
+        const id = typeof z === "string" ? z : z.id;
+        const item = await znajdzItemSwade(id, "zawady");
+        if (item) zawadyDoDodania.push(item.toObject());
+        else ui.notifications.warn(`Nie znaleziono zawady: ${z.nazwa || id}`);
+    }
 
+
+    await aktor.createEmbeddedDocuments("Item", zawadyDoDodania);
 
 // bron
     const bronDoDodania = [];

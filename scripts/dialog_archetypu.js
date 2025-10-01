@@ -12,7 +12,7 @@ let dialogArchetypu = null;
 
 export async function otworzKreatorArchetypu() {
 
-  if (dialogArchetypu) { dialogArchetypu.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogArchetypu) { dialogArchetypu.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
   
   // Helpery
   PustaLiniaHelper();
@@ -33,65 +33,59 @@ export async function otworzKreatorArchetypu() {
   const content = await foundry.applications.handlebars.renderTemplate("modules/swade-npc-forge-eph/templates/dialog_archetypu.hbs", dane);
 
   // Tworzenie dialogu
-  dialogArchetypu = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogArchetyp"),
-    content, // z szablonu
-    buttons: {
-      stworz: {
-        label: game.i18n.localize("NPCForge.PrzyciskStworz"),
-        callback: async html => {
-          const formularz = html[0].querySelector("form");
-          const daneFormularza = new FormData(formularz);
-
-          await generujArchetyp(daneFormularza);
-          odswiezDialogMain();
-
-        },
-        button: true
-      },
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij"),
+  await foundry.applications.api.DialogV2.wait({
+  window: { title: game.i18n.localize("NPCForge.TytulDialogArchetyp") },
+  content,
+  buttons: [
+    {
+      label: game.i18n.localize("NPCForge.PrzyciskStworz"),
+      action: "stworz",
+      callback: async (event, btn, dlg) => {
+        const formularz = dlg.element.querySelector("form") || dlg.element;
+        const daneFormularza = new FormData(formularz);
+        await generujArchetyp(daneFormularza);
+        odswiezDialogMain();
+        return "stworz";
       }
     },
-    render: async html => {
+    { label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close" }
+  ],
+    render: async (event, dialog) => {
+      dialogArchetypu = dialog;
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogArchetypu-okno"); // klasa okna do pliku css
+      const el = dialog.element;
+      const html = $(el);
 
-      obslugaAtrybutów(html);
-      obslugaUmiejetnosci(html);
-      przewagiArchetyp(html);
-      przewagiMocyArchetyp(html);
-      moceArchetyp(html);
-      obslugaZakladekRangiPancerz(html);
-      obslugaZakladekRangiBron(html);
-      obsluzDropItemGrants(html);
-      
-      const lokacje = ["K", "G", "R", "N"];
-      const poziomy = ["P", "1", "2", "3", "4", "5"];
-      for (const lok of lokacje) {
-        for (const poz of poziomy) {
-          const kod = lok + poz;
-          await pancerz(html, kod);
-        }
-      }
+      queueMicrotask(() => dialog.setPosition({ width: 500 }));
 
-      await obslugaPrzyciskuStworz(html);
-    },
-      close: () => { 
-        dialogArchetypu = null;
+
+        obslugaPrzyciskuStworz(html);
+        obslugaAtrybutów(html);
+        obslugaUmiejetnosci(html);
+        przewagiArchetyp(html);
+        przewagiMocyArchetyp(html);
+        moceArchetyp(html);
+        obslugaZakladekRangiPancerz(html);
+        obslugaZakladekRangiBron(html);
+        obsluzDropItemGrants(html);
         
-        licznikWariantowP = 0;
-        licznikWariantow1 = 0;
-        licznikWariantow2 = 0;
-        licznikWariantow3 = 0;
-        licznikWariantow4 = 0;
-        licznikWariantow5 = 0;
-      }
-      
+        const lokacje = ["K", "G", "R", "N"];
+        const poziomy = ["P", "1", "2", "3", "4", "5"];
+        for (const lok of lokacje) {
+          for (const poz of poziomy) {
+            const kod = lok + poz;
+            await pancerz(html, kod);
+          }
+        }
+    }
   });
-  
-  await dialogArchetypu.render(true);
+    dialogArchetypu = null;
+    licznikWariantowP = 0;
+    licznikWariantow1 = 0;
+    licznikWariantow2 = 0;
+    licznikWariantow3 = 0;
+    licznikWariantow4 = 0;
+    licznikWariantow5 = 0;
 }
 
 
@@ -602,7 +596,19 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
 
               <div class="npcforge-liniaZdolnosci1">
                 <select name="npcforge-zdolnoscNadprzyrodzona[]">
-                  ${przewagi.map(p => `<option value="${p.id}" ${p.id === przewagaId ? "selected" : ""}>${p.category}: ${p.name}</option>`).join("")}
+                  ${Object.entries(
+                      przewagi.reduce((acc, p) => {
+                        const cat = p.category || "Inne";
+                        (acc[cat] ??= []).push(p);
+                        return acc;
+                      }, {})
+                    ).map(([cat, arr]) => `
+                      <optgroup label="${cat}">
+                        ${arr.map(p => `
+                          <option value="${p.id}" ${p.id === przewagaId ? "selected" : ""}>${p.name}</option>
+                        `).join("")}
+                      </optgroup>
+                    `).join("")}
                 </select>
 
                 <div class="npcforge-noweMoceLinia">
@@ -920,7 +926,9 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
           });
 
           wszystkieZakladki.forEach(btn => {
-            btn.addEventListener("click", () => {
+            btn.addEventListener("click", (ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
               wszystkieZakladki.forEach(b => b.classList.remove("active"));
               btn.classList.add("active");
 
@@ -928,6 +936,7 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
               pokazSekcjeRangi(ranga);
             });
           });
+
         }
 
         async function pancerz(html, kod) {
@@ -1039,10 +1048,14 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
                 }
 
                 const ikony = [];
-                if (head) ikony.push(`<img src="modules/swade-npc-forge-eph/icons/pancerz/glowa.png" style="width:20px; height:20px; border: none;"/>`);
-                if (torso) ikony.push(`<img src="modules/swade-npc-forge-eph/icons/pancerz/korpus.png" style="width:20px; height:20px; border: none;"/>`);
-                if (arms) ikony.push(`<img src="modules/swade-npc-forge-eph/icons/pancerz/rece.png" style="width:20px; height:20px; border: none;"/>`);
-                if (legs) ikony.push(`<img src="modules/swade-npc-forge-eph/icons/pancerz/nogi.png" style="width:20px; height:20px; border: none;"/>`);
+                if (head) ikony.push(`<img class="npcforge_lokacje_pancerz_dark" src="modules/swade-npc-forge-eph/icons/pancerz/glowaC.png" style="width:20px; height:20px; border: none;"/>
+                                      <img class="npcforge_lokacje_pancerz_light" src="modules/swade-npc-forge-eph/icons/pancerz/glowaJ.png" style="width:20px; height:20px; border: none;"/>`);
+                if (torso) ikony.push(`<img class="npcforge_lokacje_pancerz_dark" src="modules/swade-npc-forge-eph/icons/pancerz/korpusC.png" style="width:20px; height:20px; border: none;"/>
+                                      <img class="npcforge_lokacje_pancerz_light" src="modules/swade-npc-forge-eph/icons/pancerz/korpusJ.png" style="width:20px; height:20px; border: none;"/>`);
+                if (arms) ikony.push(`<img class="npcforge_lokacje_pancerz_dark" src="modules/swade-npc-forge-eph/icons/pancerz/receC.png" style="width:20px; height:20px; border: none;"/>
+                                      <img class="npcforge_lokacje_pancerz_light" src="modules/swade-npc-forge-eph/icons/pancerz/receJ.png" style="width:20px; height:20px; border: none;"/>`);
+                if (legs) ikony.push(`<img class="npcforge_lokacje_pancerz_dark" src="modules/swade-npc-forge-eph/icons/pancerz/nogiC.png" style="width:20px; height:20px; border: none;"/>
+                                      <img class="npcforge_lokacje_pancerz_light" src="modules/swade-npc-forge-eph/icons/pancerz/nogiJ.png" style="width:20px; height:20px; border: none;"/>`);
 
                 kontenerIkon.innerHTML = ikony.join(" ");
               });
@@ -1142,7 +1155,9 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
           });
 
           wszystkieZakladki.forEach(btn => {
-            btn.addEventListener("click", () => {
+            btn.addEventListener("click", (ev) => {
+              ev.preventDefault();
+              ev.stopPropagation();
               wszystkieZakladki.forEach(b => b.classList.remove("active"));
               btn.classList.add("active");
 
@@ -1225,15 +1240,13 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
 
               <!-- SLOT 2 -->
               <div class="npcforge-slotBroni" id="slot_2_wariant_${id}" style="display: none;">
-                <div class="npcforge-liniaZIkona"><span>✦</span></div>
+                <hr>
                 <div class="npcforge-listaSlotu" id="lista_bron_slot_2_${id}"></div>
                 <div class="npcforge-przyciskiSlotu">
                   <button type="button" class="npcforge-dodajBronSlot" data-wariant="${id}" data-slot="2">➕</button>
                   <button type="button" class="npcforge-dodajGrupeBroniSlot" data-wariant="${id}" data-slot="2">🔖</button>
                 </div>
               </div>
-
-              <hr>
 
               <div class="npcforge-usunWariantBroniPrzycisk">
 
@@ -1651,7 +1664,7 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
 
           async function obslugaPrzyciskuStworz(html) {
 
-            const przyciskStworz = html.find("button[data-button='stworz']");
+            const przyciskStworz = html.find("button[data-action='stworz']");
             const poleNazwa = html.find("[name='npcforge-nazwaArchetypu']");
 
             // Startowo: blokuj
@@ -1667,6 +1680,7 @@ function gwiazdki(panel, domyslnyPoziom = 0, callback = null) {
                 document.querySelectorAll(".npcforge-tooltip").forEach(e => e.remove());
               }
             });
+            przyciskStworz.prop("disabled", !(poleNazwa.val()?.trim()));
 
             if (poleNazwa.val()?.trim()) {
               przyciskStworz.prop("disabled", false);

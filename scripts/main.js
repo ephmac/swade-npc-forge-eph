@@ -19,15 +19,13 @@ Hooks.once("setup", async () => {
 });
 
 function dialogBrakuKompendiow() {
-  new Dialog({
-    title: game.i18n.localize("NPCForge.BrakKompendiowTitle"),
+  foundry.applications.api.DialogV2.wait({
+    window: { title: game.i18n.localize("NPCForge.BrakKompendiowTitle") },
     content: `<p>${game.i18n.localize("NPCForge.BrakKompendiowInfo")}</p>`,
-    buttons: {
-      ok: {
-        label: "OK"
-      }
-    }
-  }).render(true);
+    buttons: [
+      { label: "OK", action: "ok", default: true }
+    ]
+  });
 }
 
 Hooks.on('renderActorDirectory', (app, html, data) => {

@@ -6,7 +6,7 @@ let tagHookBroni = null;
 
 export async function otworzEdytorBroni() {
 
-  if (dialogBroni) { dialogBroni.bringToTop(); return; } // Zapobiega wielokrotnemu otwieraniu
+  if (dialogBroni) { dialogBroni.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
 
   // Helpery
   PustaLiniaHelper();
@@ -17,52 +17,31 @@ export async function otworzEdytorBroni() {
     tagi
   });
 
-  dialogBroni = new Dialog({
-    title: game.i18n.localize("NPCForge.TytulDialogBroni"),
-    content,
-    buttons: {
-      close: {
-        label: game.i18n.localize("NPCForge.PrzyciskZamknij")
-      }
-    },
-    render: async (html) => {
 
-      const windowApp = html[0].closest(".window-app");
-      windowApp.classList.add("npcforge-dialogBroni-okno"); // klasa okna do pliku css
+
+await foundry.applications.api.DialogV2.wait({
+  window: { title: game.i18n.localize("NPCForge.TytulDialogBroni") },
+  content,
+  buttons: [{ label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "close", default: true }],
+  render: async (event, dialog) => {
+    dialogBroni = dialog;
+    const el = dialog.element;
+    const html = $(el);
+
+    queueMicrotask(() => dialog.setPosition({ width: 335 }));
 
       listaBroni(html);
 
       // Przycisk
       html[0].querySelector("#edytuj-tagi").addEventListener("click", () => otworzDialogTagow());
 
-      tagHookBroni = Hooks.on("npcforge:tagiZmienione", async () => {
-        const select = html[0].querySelector("#wybor-tagu");
-        if (!select) return;
 
-        const tagi = JSON.parse(game.settings.get("swade-npc-forge-eph", "listaTagow") || "[]");
-        const selected = select.value;
 
-        select.innerHTML = `<option value="">--</option>`;
-        for (const tag of tagi) {
-          const opt = document.createElement("option");
-          opt.value = tag;
-          opt.textContent = tag;
-          if (tag === selected) opt.selected = true;
-          select.appendChild(opt);
-        }
-      });
-
-    },
-    close: () => {
-      dialogBroni = null;
-
-      if (tagHookBroni !== null) {
-        Hooks.off("npcforge:tagiZmienione", tagHookBroni);
-        tagHookBroni = null;
-      }
-    }
-  });
-  await dialogBroni.render(true);
+    tagHookBroni = Hooks.on("npcforge:tagiZmienione", () => { /* ... */ });
+  }
+});
+dialogBroni = null;
+if (tagHookBroni !== null) { Hooks.off("npcforge:tagiZmienione", tagHookBroni); tagHookBroni = null; }
 }
 
 
