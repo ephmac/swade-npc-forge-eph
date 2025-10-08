@@ -2,10 +2,11 @@
   "id": "swade-npc-forge-eph",
   "title": "SWADE NPC Forge ⫷𝗘𝗣𝗛⫸",
   "description": "NPC generator for Savage Worlds Adventure Edition.",
-  "version": "1.1.0",
+  "version": "1.2.0",
   "authors": [
     {
-      "name": "Ephaltes"
+      "name": "Ephaltes",
+      "url": "https://discord.com/invite/gb4UHaAsc4"
     }
   ],
   "compatibility": {

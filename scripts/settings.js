@@ -155,6 +155,14 @@ game.settings.register("swade-npc-forge-eph", "opcje-F", {
   type: Array
 });
 
+game.settings.register("swade-npc-forge-eph", "wiadomoscPokazana", {
+    name: "NPC Forge: Welcome message",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false
+  });
+
 }
 
 class oknoUstawien extends FormApplication {

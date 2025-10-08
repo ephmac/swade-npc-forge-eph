@@ -28,6 +28,48 @@ function dialogBrakuKompendiow() {
   });
 }
 
+Hooks.once("ready", async () => {
+  if (!game.user.isGM) return;
+
+  const pokazana = game.settings.get("swade-npc-forge-eph", "wiadomoscPokazana");
+  if (pokazana) return;
+
+  const content = `
+    <div>
+      <h2>${game.i18n.localize("NPCForge.WiadomoscPowitalnaNaglowek")}</h2>
+      <p>${game.i18n.localize("NPCForge.WiadomoscPowitalnaTresc")}</p>
+    </div>
+  `;
+
+  // Chat – zobaczą wszyscy
+  ChatMessage.create({
+    content: content,
+    speaker: { alias: "NPC Forge" }
+  });
+
+  // Dialog
+  await foundry.applications.api.DialogV2.wait({
+  window: { title: "SWADE NPC FORGE" },
+  content,
+  buttons: [{ label: game.i18n.localize("NPCForge.PrzyciskZamknij"), action: "ok", default: true }],
+  render: (ev, dialog) => {
+    queueMicrotask(() => {
+      dialog.setPosition({ width: 420 });
+      // opcjonalnie wycentruj:
+      const el = dialog.element;
+      const szer = el.offsetWidth;
+      const wys  = el.offsetHeight;
+      dialog.setPosition({
+        left: (window.innerWidth  - szer) / 2,
+        top:  (window.innerHeight - wys)  / 2
+      });
+    });
+  }
+});
+
+  await game.settings.set("swade-npc-forge-eph", "wiadomoscPokazana", true);
+});
+
 Hooks.on('renderActorDirectory', (app, html, data) => {
   if (!game.user.isGM) return; // tylko dla GM-a
     

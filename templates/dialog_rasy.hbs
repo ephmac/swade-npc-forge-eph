@@ -3,7 +3,10 @@
   <div class="npcforge-dialogRasyZawartosc"> 
 
     {{!-- Nazwa --}}
-    <h3>{{localize "NPCForge.NazwaRasy"}}</h3>
+    <div class="npcforge-rasaNaglowek">
+      <h3>{{localize "NPCForge.NazwaRasy"}}</h3>
+      <button type="button" id="npcforge-wczytajRaseBtn" title="{{localize 'NPCForge.WczytajRase'}}">🧲</button>
+    </div>
     <input type="text" name="npcforge-nazwaRasy" value="" />
     {{pustaLinia}}
 

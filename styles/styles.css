@@ -1088,3 +1088,14 @@
     font-size: 14px;
     vertical-align: middle;
   }
+
+
+
+
+
+
+  
+  .npcforge-rasaNaglowek {
+    display: grid;
+    grid-template-columns: 1fr 40px;
+  }

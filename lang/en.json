@@ -117,7 +117,7 @@
 "NPCForge.UmiejetnosciOpisRasa":      "Set starting skills. ⚠️ If you skip core skills, they won’t be present on the generated actor!",
 "NPCForge.PrzewagiOpisRasa":          "Add edges that should be granted automatically. You can also drag in edges from outside the chosen compendium.",
 "NPCForge.ZawadyOpisRasa":            "Add hindrances that should be granted automatically. Drag-and-drop from other compendiums is also allowed.",
-"NPCForge.MoceOpisRasa":              "Add powers that should be granted automatically. Reminder: the character needs Power Points to actually use these powers.",
+"NPCForge.MoceOpisRasa":              "Add powers that should be granted automatically. Reminder: the character needs Power Points to actually use these powers. You can add their additional (to power point edges) values in ARCANE section.",
 "NPCForge.BronNaturalnaOpisRasa":     "You can optionally add a natural weapon for the race – choose from the list or drag one in. Entering a category name before adding another row filters the compendium. This also lets you add fists if you want the character to default to them. The item will be granted using the Item Grant method.",
 "NPCForge.TabliceOpisRasa":           "Add any random tables that should be rolled during NPC generation. The results will be added to the description.",
 "NPCForge.Min":                       "Min",
@@ -208,5 +208,18 @@
 "NPCForge.WymaganaPrzewagaDajacaMoce":  "Required Arcane Backgrounds",
 "NPCForge.OpisModyfikator":             "This modifier comes from the race",
 "NPCForge.Dowolna":                     "Any",
-"NPCForge.Autousupełnianie":            "Populate core skills"
+"NPCForge.Autousupełnianie":            "Populate core skills",
+
+
+"NPCForge.WczytajRase": "Load Race",
+"NPCForge.PusteKompendiumRas": "The compendium is empty",
+"NPCForge.PrzyciskAnuluj": "Cancel",
+"NPCForge.PrzyciskWczytaj": "Load",
+"NPCForge.WiadomoscPowitalnaNaglowek": "IMPORTANT NOTICE! (NPC FORGE)",
+"NPCForge.WiadomoscPowitalnaTresc": "After the latest update, existing RACE items in the compendium may not work. Sorry for the trouble. You can quickly restore them in the Race Builder: click the magnet icon in the top-right corner, import the race from the compendium, review the data, and save. Note: the editor creates a NEW item; it does not overwrite the old one. If you keep the same name, you will end up with two items of the same name in the compendium. I recommend renaming the item in the compendium before import or giving it a new name when saving. Sorry again for the inconvenience. Questions? Join my Discord."
+
+
+
+
+
 } 

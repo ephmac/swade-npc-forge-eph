@@ -81,15 +81,16 @@ export async function otworzDialog() {
   window.dialogMainInstance = null;
 }   
 
-export function odswiezDialogMain() {
-  if (window.dialogMainInstance) {
-    window.dialogMainInstance.close();
-    setTimeout(() => {
-      window.dialogMainInstance = null;
-      otworzDialog();
-    }, 100);
-  }
+export async function odswiezDialogMain() {
+  const dlg = window.dialogMainInstance;
+  if (!dlg) return otworzDialog();       // jeśli głównego nie ma, po prostu otwórz
+
+  try { await dlg.close(); } catch {}     // zamknij i poczekaj aż się faktycznie domknie
+
+  // w tym momencie wait() z otworzDialog() już się rozwiąże i posprząta referencje
+  return otworzDialog();                  // otwórz świeży dialog z nowymi danymi
 }
+
 
 async function liczbaPostaci(html) {
   html.find("input[name='liczba']").on("blur", function () {

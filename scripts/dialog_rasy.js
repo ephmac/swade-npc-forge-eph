@@ -4,6 +4,7 @@ import { generujRase } from "./generator_rasy.js";
 import { odswiezDialogMain } from "./dialog_main.js";
 
 let dialogRasy = null;
+let dialogWczytaniaRasy = null;
 
 export async function otworzKreatorRasy() {
 
@@ -63,6 +64,7 @@ export async function otworzKreatorRasy() {
         dropzone(html);
         obslugaBroniNaturalnej(html);
         zabezpieczPola(html);
+        przyciskWczytajRase(html);
 
 setTimeout(() => {
   const root = dialog.element;                 // ← bez [0]
@@ -842,3 +844,354 @@ export function zabezpieczPola(html) {
     if (input.length) zabezpieczPoleLiczbowe(input, 0); // min = 0, max = null (brak limitu górnego)
   }
 }
+
+
+
+
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+// XXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXXX
+
+
+async function przyciskWczytajRase(html) {
+
+  const przyciskWczytajRase = html[0].querySelector("#npcforge-wczytajRaseBtn");
+
+  przyciskWczytajRase.addEventListener("click", async () => {
+
+  if (dialogWczytaniaRasy) { dialogWczytaniaRasy.bringToFront(); return; } // Zapobiega wielokrotnemu otwieraniu
+  dialogWczytaniaRasy = { pending: true };
+
+
+    const rasyComp = game.settings.get("swade-npc-forge-eph", "kompendiumRasy");
+    const rasyPack = game.packs.get(rasyComp)
+    const rasy = await rasyPack.getDocuments();
+    if (rasy.length === 0) return ui.notifications.warn(game.i18n.localize("NPCForge.PusteKompendiumRas"));
+    
+
+    const listaRas = rasy
+      .sort((a,b)=> a.name.localeCompare(b.name))
+      .map(d => `<option value="${d.uuid}">${foundry.utils.escapeHTML(d.name)}</option>`)
+      .join("");
+
+    const content = `
+      <form>
+          <label style="min-width:120px;">${game.i18n.localize("NPCForge.WybierzRase")}</label>
+          <select name="wybranaRasa" style="flex:1;">${listaRas}</select>
+      </form>
+    `;
+
+    await foundry.applications.api.DialogV2.wait({
+      window: { title: game.i18n.localize("NPCForge.WczytajRase") },
+      content,
+      render: (event, dialog) => { dialogWczytaniaRasy = dialog; },
+      buttons: [
+        {
+          label: game.i18n.localize("NPCForge.PrzyciskWczytaj"),
+          action: "ok",
+          default: true,
+          callback: async (ev, btn, dlg) => {
+              const form = dlg.element.querySelector("form") || dlg.element;
+              const uuid = new FormData(form).get("wybranaRasa");
+              const wczytanaRasa = await fromUuid(uuid);
+              await wczytajDaneZRasy(html, wczytanaRasa);
+          }
+        },
+        { label: game.i18n.localize("NPCForge.PrzyciskAnuluj"), action: "close" }
+      ]
+    });
+    dialogWczytaniaRasy = null;
+  });
+}
+
+
+async function wczytajDaneZRasy(html, wczytanaRasa) {
+  const dane = wczytanaRasa.getFlag("swade-npc-forge-eph", "rasaDane");
+
+  // NAZWA
+  html.find("[name='npcforge-nazwaRasy']")
+      .val(dane.nazwa || wczytanaRasa.name || "")
+      .trigger("input");
+
+  // ATRYBUTY
+  const a = dane.atrybuty;
+  html.find("[name='npcforge-zrecznosc_min']").val(a.zrecznosc[0]);
+  html.find("[name='npcforge-zrecznosc_max']").val(a.zrecznosc[1]);
+  html.find("[name='npcforge-zrecznosc_anomalia']").val(a.zrecznosc[2]);
+
+  html.find("[name='npcforge-spryt_min']").val(a.spryt[0]);
+  html.find("[name='npcforge-spryt_max']").val(a.spryt[1]);
+  html.find("[name='npcforge-spryt_anomalia']").val(a.spryt[2]);
+  html.find("[name='npcforge-zwierzecy_spryt_rasa']").prop("checked", !!a.zwierzecySpryt).trigger("change");
+
+  html.find("[name='npcforge-duch_min']").val(a.duch[0]);
+  html.find("[name='npcforge-duch_max']").val(a.duch[1]);
+  html.find("[name='npcforge-duch_anomalia']").val(a.duch[2]);
+
+  html.find("[name='npcforge-sila_min']").val(a.sila[0]);
+  html.find("[name='npcforge-sila_max']").val(a.sila[1]);
+  html.find("[name='npcforge-sila_anomalia']").val(a.sila[2]);
+
+  html.find("[name='npcforge-wigor_min']").val(a.wigor[0]);
+  html.find("[name='npcforge-wigor_max']").val(a.wigor[1]);
+  html.find("[name='npcforge-wigor_anomalia']").val(a.wigor[2]);
+
+  // UMIEJĘTNOŚCI
+  const u = dane.umiejetnosci;
+
+  const comp = game.settings.get("swade-npc-forge-eph", "kompendiumUmiejetnosci");
+  const pack = game.packs.get(comp);
+  const all = (await pack.getDocuments())
+    .filter(e => e.type === "skill")
+    .map(e => ({ id: e.id, name: e.name }))
+    .sort((a,b) => a.name.localeCompare(b.name));
+
+  const kontener = html[0].querySelector("#npcforge-listaUmiejetnosciRasy");
+  kontener.innerHTML = "";
+
+  const ids   = u.id;
+  const kosci = u.kosc;
+  const mody  = u.modyfikator;
+
+  for (let i = 0; i < ids.length; i++) {
+    const id   = ids[i];
+    const kosc = kosci[i] || "d4";
+    const mod  = Number(mody[i] ?? 0);
+
+    const linia = document.createElement("div");
+    linia.classList.add("npcforge-linia-umiejetnosci");
+    linia.innerHTML = `
+      <select name="npcforge-umiejetnoscRasa[]">
+        <option value="">${game.i18n.localize("NPCForge.WybierzZListy")}</option>
+        ${all.map(s => `<option value="${s.id}" ${s.id===id ? "selected" : ""}>${s.name}</option>`).join("")}
+      </select>
+
+      <select name="npcforge-umiejetnoscKoscRasa">
+        ${["d4","d6","d8","d10","d12"].map(k => `<option value="${k}" ${k===kosc ? "selected" : ""}>${k}</option>`).join("")}
+      </select>
+
+      <select name="npcforge-umiejetnoscModyfikatorRasa">
+        ${Array.from({length:21},(_,j)=>j-10).map(n => `<option value="${n}" ${n===mod ? "selected" : ""}>${n>=0?"+":""}${n}</option>`).join("")}
+      </select>
+
+      <span></span>
+      <button type="button" class="npcforge-usunUmiejetnoscRasa">➖</button>
+    `;
+    kontener.appendChild(linia);
+    linia.querySelector(".npcforge-usunUmiejetnoscRasa").addEventListener("click", () => linia.remove());
+  }
+
+  // PRZEWAGI
+  {
+    const p = dane.przewagi; // tablica obiektów { id, nazwa }
+    const kontener = html[0].querySelector("#npcforge-listaPrzewagRasy");
+    kontener.innerHTML = "";
+
+    for (const { id, nazwa } of p) {
+      const linia = document.createElement("div");
+      linia.classList.add("npcforge-przewagaLiniaRasa", "npcforge-linia-przewagi");
+      linia.innerHTML = `
+        <select name="npcforge-przewagaRasa[]" disabled>
+          <option value="${foundry.utils.escapeHTML(id)}"
+                  data-nazwa="${foundry.utils.escapeHTML(nazwa || "")}"
+                  selected>${foundry.utils.escapeHTML(nazwa || id)}</option>
+        </select>
+        <span></span>
+        <button type="button" class="npcforge-usunPrzewageRasa">➖</button>
+      `;
+      kontener.appendChild(linia);
+      linia.querySelector(".npcforge-usunPrzewageRasa").addEventListener("click", () => linia.remove());
+      try { stylPrzewagi(linia, true); } catch {}
+    }
+  }
+
+  // ZAWADY
+  {
+    const kontener = html[0].querySelector("#npcforge-listaZawadRasy");
+    kontener.innerHTML = "";
+
+    const zawadyComp = game.settings.get("swade-npc-forge-eph", "kompendiumZawady");
+    const zawadyPack = game.packs.get(zawadyComp);
+
+    for (const id of dane.zawady) {
+      let doc = null;
+      if (id?.startsWith?.("Compendium.")) {
+        doc = await fromUuid(id);
+      } else if (zawadyPack) {
+        doc = await zawadyPack.getDocument(id);
+      }
+      const label = doc?.name || id;
+      const value = doc
+        ? (id?.startsWith?.("Compendium.") ? id : `Compendium.${zawadyPack.collection}.${doc.id}`)
+        : id;
+
+      const linia = document.createElement("div");
+      linia.classList.add("npcforge-zawadaLiniaRasa", "npcforge-linia-zawady");
+      linia.innerHTML = `
+        <select name="npcforge-zawadaRasa[]" disabled>
+          <option value="${foundry.utils.escapeHTML(value)}" selected>${foundry.utils.escapeHTML(label)}</option>
+        </select>
+        <span></span>
+        <button type="button" class="npcforge-usunZawadeRasa">➖</button>
+      `;
+      kontener.appendChild(linia);
+      linia.querySelector(".npcforge-usunZawadeRasa").addEventListener("click", () => linia.remove());
+      try { stylZawady(linia, true); } catch {}
+    }
+  }
+
+
+  // MOCE
+  {
+    const m = dane.moce;
+    const kontener = html[0].querySelector("#npcforge-listaMocyRasy");
+    kontener.innerHTML = "";
+
+    const moceComp = game.settings.get("swade-npc-forge-eph", "kompendiumMoce");
+    const mocePack = game.packs.get(moceComp);
+
+    for (const id of m.moce_id) {
+      let moc = null;
+      if (id?.startsWith?.("Compendium.")) {
+        moc = await fromUuid(id);
+      } else if (mocePack) {
+        moc = await mocePack.getDocument(id);
+      }
+      const arkana = moc?.system?.arcane?.trim?.() || game.i18n.localize("NPCForge.OgólnePunktyMocy");
+
+      const linia = document.createElement("div");
+      linia.classList.add("npcforge-mocLiniaRasa", "npcforge-linia-moce");
+      linia.innerHTML = `
+        <select name="npcforge-mocRasa[]" disabled>
+          <option value="${foundry.utils.escapeHTML(id)}" selected>${foundry.utils.escapeHTML(moc?.name || id)}</option>
+        </select>
+        <div><input type="text" name="npcforge-mocArkanaRasa" value="${foundry.utils.escapeHTML(arkana)}" disabled /></div>
+        <span></span>
+        <button type="button" class="npcforge-usunMocRasa">➖</button>
+      `;
+      kontener.appendChild(linia);
+      linia.querySelector(".npcforge-usunMocRasa").addEventListener("click", () => { linia.remove(); punktyMocy(); });
+      try { stylMoce(linia, true); } catch {}
+    }
+
+    // odbuduj pola punktów mocy na podstawie zebranych arkan
+    punktyMocy();
+
+    // wpisz wartości punktów dla poszczególnych arkan (z flagi)
+    const nazwy = m.arkana_nazwy || [];
+    const punkty = m.arkana_punkty || [];
+    for (let i = 0; i < nazwy.length; i++) {
+      const ark = nazwy[i];
+      const val = Number(punkty[i] ?? 0);
+      const inp = html[0].querySelector(`input[name='punkty_mocy_${CSS.escape(ark)}']`);
+      if (inp) inp.value = val;
+    }
+  }
+
+  // M O D Y F I K A T O R Y
+  {
+    const m = dane.modyfikatory;
+
+    // ROZMIAR
+    const r = m.rozmiar;
+    html.find("[name='npcforge-rozmiarRasa']").val(r.rozmiar);
+    html.find("[name='npcforge-rozmiarWytrzymaloscRasa']").val(r.rozmiar_wytrzymalosc);
+    html.find("[name='npcforge-modyfikatorSkaliRasa']").val(r.modyfikator_skali);
+    html.find("[name='npcforge-zasiegAtakuRasa']").val(r.zasieg_ataku);
+    html.find("[name='npcforge-maksymalneRanyRasa']").val(r.maksymalne_rany);
+    html.find("[name='npcforge-zastosujMaksymalneRany']").prop("checked", !!r.zastosuj_maksymalne_rany);
+  
+    // TEMPO
+    const t = m.tempo;
+    html.find("[name='npcforge-tempoNaZiemiRasa']").val(t.tempo_na_ziemi);
+    html.find("[name='npcforge-tempoLotRasa']").val(t.tempo_lot);
+    html.find("[name='npcforge-tempoPlywanieRasa']").val(t.tempo_plywanie);
+    html.find("[name='npcforge-tempoPodZiemiaRasa']").val(t.tempo_pod_ziemia);
+    html.find("[name='npcforge-tempoDomyslneRasa']").val(t.tempo_domyslne);
+    html.find("[name='npcforge-koscBieganiaRasa']").val(t.kosc_biegania);
+    html.find("[name='npcforge-modyfikatorKosciBieganiaRasa']").val(t.modyfikator_kosci_biegania);
+
+    // POZOSTAŁE
+    html.find("[name='modyfikator_obrony']").val(m.modyfikator_obrony);
+    html.find("[name='modyfikator_wytrzymalosci']").val(m.modyfikator_wytrzymalosci);
+    html.find("[name='maksimum_ran']").val(m.maksimum_ran);
+    html.find("[name='ignorowanie_ran']").val(m.ignorowanie_ran);
+    html.find("[name='maksimum_zmeczenia']").val(m.maksimum_zmeczenia);
+    html.find("[name='ignorowanie_zmeczenia']").val(m.ignorowanie_zmeczenia);
+    html.find("[name='modyfikator_fuksow']").val(m.modyfikator_fuksow);
+    html.find("[name='modyfikator_wyjscia_z_szoku']").val(m.modyfikator_wyjscia_z_szoku);
+    html.find("[name='modyfikator_wyparowania']").val(m.modyfikator_wyparowania);
+    html.find("[name='dodatkowe_przewagi']").val(m.dodatkowe_przewagi);
+    html.find("[name='dodatkowe_zawady']").val(m.dodatkowe_zawady);
+  }
+
+  // BROŃ NATURALNA
+  {
+    const kontener = html[0].querySelector("#npcforge-listaBroniNaturalnejRasy");
+    kontener.innerHTML = "";
+
+    const bronNaturalnaComp =
+      game.settings.get("swade-npc-forge-eph", "kompendiumBronNaturalna") ||
+      game.settings.get("swade-npc-forge-eph", "kompendiumSprzet");
+    const sprzetPack = game.packs.get(bronNaturalnaComp);
+
+    for (const val of (dane.bronNaturalna || [])) {
+      let doc = null;
+      if (val?.startsWith?.("Compendium.")) {
+        doc = await fromUuid(val);
+      } else if (sprzetPack) {
+        doc = await sprzetPack.getDocument(val);
+      }
+
+      const label = doc?.name || val;
+      const value = doc
+        ? (val?.startsWith?.("Compendium.") ? val : `Compendium.${sprzetPack.collection}.${doc.id}`)
+        : val;
+
+      const linia = document.createElement("div");
+      linia.classList.add("npcforge-bronNaturalnaLiniaRasa", "npcforge-linia-bronNaturalna");
+      linia.innerHTML = `
+        <select name="npcforge-bronNaturalnaRasa[]" disabled>
+          <option value="${foundry.utils.escapeHTML(value)}" selected>${foundry.utils.escapeHTML(label)}</option>
+        </select>
+        <span></span>
+        <button type="button" class="npcforge-usunBronNaturalnaRasa">➖</button>
+      `;
+      kontener.appendChild(linia);
+      linia.querySelector(".npcforge-usunBronNaturalnaRasa").addEventListener("click", () => linia.remove());
+      try { stylBronNaturalna(linia, true); } catch {}
+    }
+  }
+
+  // TABLICE LOSOWE
+  {
+    const kontener = html[0].querySelector("#npcforge-listaTablicRasy");
+    kontener.innerHTML = "";
+
+    for (const uuid of (dane.tablice || [])) {
+      const tab = await fromUuid(uuid);
+      const label = tab?.name || uuid;
+
+      const linia = document.createElement("div");
+      linia.classList.add("npcforge-linia-tablice");
+      linia.innerHTML = `
+        <select name="npcforge-tablicaRasa[]" disabled>
+          <option value="${foundry.utils.escapeHTML(uuid)}" selected>${foundry.utils.escapeHTML(label)}</option>
+        </select>
+        <span></span>
+        <button type="button" class="npcforge-usunTabliceRasa">➖</button>
+      `;
+      kontener.appendChild(linia);
+      linia.querySelector(".npcforge-usunTabliceRasa").addEventListener("click", () => linia.remove());
+    }
+  }
+}
+
+
+
+
+
+
+
+

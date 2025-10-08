@@ -117,7 +117,7 @@
 "NPCForge.UmiejetnosciOpisRasa":    "Wprowadź umiejętności startowe. Uwaga! Jeśli nie wprowadzisz umiejętności podstawowych, to nie pojawią się one na wygenerowanej karcie aktora!",
 "NPCForge.PrzewagiOpisRasa":        "Wprowadź przewagi, które zostaną dodane do kartę. Możesz równiez przeciągnąć przewagi spoza podanego przez ciebie kompendium.",
 "NPCForge.ZawadyOpisRasa":          "Wprowadź zawady, które zostaną dodane do kartę. Możesz równiez przeciągnąć zawady spoza podanego przez ciebie kompendium.",
-"NPCForge.MoceOpisRasa":            "Wprowadź moce, które zostaną dodane do kartę. Możesz równiez przeciągnąć moce spoza podanego przez ciebie kompendium. Pamiętaj, że postać potrzebuje Punktów Mocy aby używać Mocy.",
+"NPCForge.MoceOpisRasa":            "Wprowadź moce, które zostaną dodane do kartę. Możesz równiez przeciągnąć moce spoza podanego przez ciebie kompendium. Pamiętaj, że postać potrzebuje Punktów Mocy aby używać Mocy, kórych dodatkowe wartości (niezależne od przewag) możesz dodać w polu ARKANA.",
 "NPCForge.BronNaturalnaOpisRasa":   "Możesz opcjonalnie dodać broń naturalną do rasy – wybierając ją z listy lub przeciągając na kartę. Wpisanie nazwy kategorii przed dodaniem kolejnej linii pozwoli przefiltrować kompendium. Tym sposobem możesz też dodać pięści, jeśli chcesz, by postać używała ich domyślnie. Będzie to dodane metoda Przyznawania przedmiotów - Item Grants",
 "NPCForge.TabliceOpisRasa":         "Dodaj tablice losowe, które mają zostać użyte podczas generowania NPC tej rasy. Wynik zostanie wpisany do opisu.",
 "NPCForge.Min":                     "Min",
@@ -209,5 +209,16 @@
 "NPCForge.WymaganaPrzewagaDajacaMoce":"Wymagana przewaga dająca moce",
 "NPCForge.OpisModyfikator":           "Ten modyfikator pochodzi z rasy",
 "NPCForge.Dowolna":                   "Dowolna",
-"NPCForge.Autousupełnianie":          "Wypełnij umiejętności podstawowe"
+"NPCForge.Autousupełnianie":          "Wypełnij umiejętności podstawowe",
+
+
+
+
+"NPCForge.WczytajRase": "Wczytaj rasę",
+"NPCForge.PusteKompendiumRas": "Kompendium puste",
+"NPCForge.PrzyciskAnuluj": "Anuluj",
+"NPCForge.PrzyciskWczytaj": "Wczytaj",
+"NPCForge.WiadomoscPowitalnaNaglowek": "UWAGA WAŻNE! (NPC FORGE)",
+"NPCForge.WiadomoscPowitalnaTresc": "Po ostatniej aktualizacji dotychczasowe przedmioty typu RASA w kompendium mogą nie działać. Przepraszam za kłopot. Możesz je łatwo przywrócić w Kreatorze Ras: kliknij ikonę magnesu w prawym górnym rogu, zaimportuj rasę z kompendium, sprawdź dane i zapisz. Uwaga: edytor tworzy NOWY przedmiot, nie nadpisuje starego. Jeśli zostawisz tę samą nazwę, w kompendium będą dwa przedmioty o identycznej nazwie. Sugeruję zmienić nazwę w kompendium przed importem lub nadać nową przy zapisie. Jeszcze raz przepraszam za niedogodności. Masz pytania? Zapraszam na mój Discord."
+
 } 
