@@ -14,17 +14,28 @@ export async function otworzDialog() {
   const archetypyComp = game.settings.get("swade-npc-forge-eph", "kompendiumArchetypy");
   const rasyComp = game.settings.get("swade-npc-forge-eph", "kompendiumRasy");
   
+  const rasySpozaGeneratora = game.settings.get("swade-npc-forge-eph", "rasySpozaGeneratora");
+
   // Tworzenie listy elementów kompendiów
   const archetypy = (await game.packs.get(archetypyComp)?.getDocuments() || [])
     .filter(a => a.getFlag("swade-npc-forge-eph", "archetypDane"));
-  const rasy = (await game.packs.get(rasyComp)?.getDocuments() || [])
-  .filter(r => r.getFlag("swade-npc-forge-eph", "rasaDane"));
 
-  
+  let rasy = [];
+  if(rasySpozaGeneratora) {
+    rasy = (await game.packs.get(rasyComp)?.getDocuments() || [])
+  }
+  else {
+    rasy = (await game.packs.get(rasyComp)?.getDocuments() || [])
+    .filter(r => r.getFlag("swade-npc-forge-eph", "rasaDane"));
+  }
+
   // Dane do przekazania do szablonu
   const dane = {
     archetypy: archetypy.map(a => ({ id: a.id, nazwa: a.name })),
-    rasy: rasy.map(r => ({ id: r.id, nazwa: r.name })),
+    rasy: rasy.map(r => ({
+      id: r.id,
+      nazwa: r.name + (rasySpozaGeneratora && !r.getFlag("swade-npc-forge-eph", "rasaDane") ? " ⟡" : "")
+    })),
   };
   
   // Renderuje szablon

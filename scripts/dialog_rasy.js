@@ -865,12 +865,13 @@ async function przyciskWczytajRase(html) {
 
 
     const rasyComp = game.settings.get("swade-npc-forge-eph", "kompendiumRasy");
-    const rasyPack = game.packs.get(rasyComp)
+    const rasyPack = game.packs.get(rasyComp);
     const rasy = await rasyPack.getDocuments();
     if (rasy.length === 0) return ui.notifications.warn(game.i18n.localize("NPCForge.PusteKompendiumRas"));
     
 
     const listaRas = rasy
+      .filter(r => r.getFlag("swade-npc-forge-eph", "rasaDane"))
       .sort((a,b)=> a.name.localeCompare(b.name))
       .map(d => `<option value="${d.uuid}">${foundry.utils.escapeHTML(d.name)}</option>`)
       .join("");

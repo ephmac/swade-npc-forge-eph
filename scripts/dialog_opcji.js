@@ -1,4 +1,5 @@
 import { PustaLiniaHelper, listaKosci_k12, listaKosciKrotka_k6 } from "./narzedzia.js";
+import { odswiezDialogMain } from "./dialog_main.js";
 
 let dialogOpcji = null;
 
@@ -36,6 +37,8 @@ export async function otworzOpcje() {
       await zapiszWagi(html);
       await resetWagi(html);
 
+      await rasySpozaGeneratora(html);
+
       const typy = ["P", "Bo", "B", "F"];
       for (let i=0; i<4; i++) {
         await wczytajPostac(html, typy[i]);
@@ -47,6 +50,23 @@ export async function otworzOpcje() {
     }
   });
   dialogOpcji = null;
+}
+
+async function rasySpozaGeneratora(html) {
+  const select = html[0].querySelector('select[name="npcforge-rasySpozaGeneratoraStatus"]');
+  if (select) {
+    const settingVal = game.settings.get("swade-npc-forge-eph", "rasySpozaGeneratora");
+    select.value = settingVal ? "true" : "false";
+
+    select.addEventListener("change", (e) => {
+      game.settings.set(
+        "swade-npc-forge-eph",
+        "rasySpozaGeneratora",
+        e.target.value === "true"
+      );
+      odswiezDialogMain();
+    });
+  }
 }
 
 async function selectory(html) {

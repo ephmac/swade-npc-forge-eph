@@ -96,7 +96,97 @@ export async function generujNPC(daneFormularza){
         const kompRasa = game.settings.get("swade-npc-forge-eph", "kompendiumRasy");
         const packRasa = game.packs.get(kompRasa);
         const rasaItem = await packRasa.getDocument(rasaId);
-        const rasaDane = rasaItem?.flags?.["swade-npc-forge-eph"]?.rasaDane;
+        const naz = rasaItem.name;
+
+        let rasaDane = rasaItem?.flags?.["swade-npc-forge-eph"]?.rasaDane;
+        if (!rasaDane) {
+            rasaDane = await zbudujRasaDane(naz);
+        }
+
+        async function zbudujRasaDane(naz) {
+            // pobierz core skills z kompendium ustawionego w opcjach
+            const umComp = game.settings.get("swade-npc-forge-eph", "kompendiumUmiejetnosci");
+            let coreSkills = [];
+            const umPack = game.packs.get(umComp);
+            if (umPack) {
+                const docs = await umPack.getDocuments();
+                coreSkills = docs
+                .filter(e => e.type === "skill")
+                .filter(e => e.system.isCoreSkill === true)
+                .map(e => ({ id: e.id, name: e.name }))
+            }
+
+            const umId  = coreSkills.map(e => e.id);
+            const umKosc = umId.map(() => "d4");
+            const umMod  = umId.map(() => 0);
+
+            
+
+            return {
+                atrybuty: {
+                    zrecznosc: ["d4", "d12", "1"],
+                    spryt:     ["d4", "d12", "1"],
+                    duch:      ["d4", "d12", "1"],
+                    sila:      ["d4", "d12", "1"],
+                    wigor:     ["d4", "d12", "1"],
+                    zwierzecySpryt: false
+                },
+
+                bronNaturalna: [],
+
+                moce: {
+                    moce_id: [],
+                    arkana_nazwy: [],
+                    arkana_punkty: []
+                },
+
+                modyfikatory: {
+                    rozmiar: {
+                        maksymalne_rany: "-",
+                        modyfikator_skali: "-",
+                        rozmiar: "0",
+                        rozmiar_wytrzymalosc: "+0",
+                        zasieg_ataku: "-",
+                        zastosuj_maksymalne_rany: true
+                    },
+                    tempo: {
+                        kosc_biegania:"d6",
+                        modyfikator_kosci_biegania: "0",
+                        tempo_domyslne: "na_ziemi",
+                        tempo_lot: "0",
+                        tempo_na_ziemi: "6",
+                        tempo_plywanie: "3",
+                        tempo_pod_ziemia: "0"
+                    },
+                    dodatkowe_przewagi: "0",
+                    dodatkowe_zawady: "0",
+                    ignorowanie_ran: "0",
+                    ignorowanie_zmeczenia: "0",
+                    maksimum_ran: "0",
+                    maksimum_zmeczenia: "0",
+                    modyfikator_fuksow: "0",
+                    modyfikator_obrony: "0",
+                    modyfikator_wyjscia_z_szoku: "0",
+                    modyfikator_wyparowania: "0",
+                    modyfikator_wytrzymalosci: "0"
+                },
+
+                nazwa: naz,
+
+                przewagi: [],
+
+                tablice: [],
+
+                umiejetnosci: {
+                    id: umId,
+                    kosc: umKosc,
+                    modyfikator: umMod
+                },
+
+                zawady: [],
+            };
+        }
+
 
 // Z ARCHETYPU
 

@@ -216,9 +216,13 @@
 "NPCForge.PrzyciskAnuluj": "Cancel",
 "NPCForge.PrzyciskWczytaj": "Load",
 "NPCForge.WiadomoscPowitalnaNaglowek": "IMPORTANT NOTICE! (NPC FORGE)",
-"NPCForge.WiadomoscPowitalnaTresc": "After the latest update, existing RACE items in the compendium may not work. Sorry for the trouble. You can quickly restore them in the Race Builder: click the magnet icon in the top-right corner, import the race from the compendium, review the data, and save. Note: the editor creates a NEW item; it does not overwrite the old one. If you keep the same name, you will end up with two items of the same name in the compendium. I recommend renaming the item in the compendium before import or giving it a new name when saving. Sorry again for the inconvenience. Questions? Join my Discord."
+"NPCForge.WiadomoscPowitalnaTresc": "After the latest update, existing RACE items in the compendium may not work. Sorry for the trouble. You can quickly restore them in the Race Builder: click the magnet icon in the top-right corner, import the race from the compendium, review the data, and save. Note: the editor creates a NEW item; it does not overwrite the old one. If you keep the same name, you will end up with two items of the same name in the compendium. I recommend renaming the item in the compendium before import or giving it a new name when saving. Sorry again for the inconvenience. Questions? Join my Discord.",
 
 
+"NPCForge.rasySpozaGeneratora": "Ancestries outside the generator",
+"NPCForge.rasySpozaGeneratoraOpis": "Enabling this option will include all ANCESTRY-type items that were not created with NPC Forge in the race list. Such ancestries will be marked with the ⟡ symbol right after their name. Each of these items uses typical default values (attributes d4–d12, anomaly range 1), basic skills set to d4, no edges, no hindrances, no powers, no modifiers, no natural weapons, and no random tables. However, after adding the generated NPC to a character sheet, all items granted via the item grants system will still be assigned normally.",
+"NPCForge.opcjaWylaczona": "Option disabled",
+"NPCForge.opcjaWlaczona": "Option enabled"
 
 
 

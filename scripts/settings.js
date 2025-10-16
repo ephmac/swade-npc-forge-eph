@@ -163,6 +163,14 @@ game.settings.register("swade-npc-forge-eph", "wiadomoscPokazana", {
     default: false
   });
 
+game.settings.register("swade-npc-forge-eph", "rasySpozaGeneratora", {
+    name: "NPC Forge: Rasy spoza generatora",
+    scope: "world",
+    config: false,
+    type: Boolean,
+    default: false
+  });
+
 }
 
 class oknoUstawien extends FormApplication {

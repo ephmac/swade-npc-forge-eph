@@ -60,12 +60,17 @@
     max-height: 600px; /* wysokość zawartości */
     padding-right: 6px;
   }
-  .npcforge-wagiNaglowek {
+  .npcforge-opcjeNaglowek {
     display: grid;
     grid-template-columns: 1fr auto;
     align-items: center;
   }
-  .npcforge-wagiNaglowek label {
+  .npcforge-selectRasySpozaGeneratora {
+    width: 200px;
+    text-align: center;
+    text-align-last: center;
+  }
+  .npcforge-opcjeNaglowek label {
     font-weight: bold;
   }
   .npcforge-wagiOpcje {

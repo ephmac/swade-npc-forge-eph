@@ -219,6 +219,11 @@
 "NPCForge.PrzyciskAnuluj": "Anuluj",
 "NPCForge.PrzyciskWczytaj": "Wczytaj",
 "NPCForge.WiadomoscPowitalnaNaglowek": "UWAGA WAŻNE! (NPC FORGE)",
-"NPCForge.WiadomoscPowitalnaTresc": "Po ostatniej aktualizacji dotychczasowe przedmioty typu RASA w kompendium mogą nie działać. Przepraszam za kłopot. Możesz je łatwo przywrócić w Kreatorze Ras: kliknij ikonę magnesu w prawym górnym rogu, zaimportuj rasę z kompendium, sprawdź dane i zapisz. Uwaga: edytor tworzy NOWY przedmiot, nie nadpisuje starego. Jeśli zostawisz tę samą nazwę, w kompendium będą dwa przedmioty o identycznej nazwie. Sugeruję zmienić nazwę w kompendium przed importem lub nadać nową przy zapisie. Jeszcze raz przepraszam za niedogodności. Masz pytania? Zapraszam na mój Discord."
+"NPCForge.WiadomoscPowitalnaTresc": "Po ostatniej aktualizacji dotychczasowe przedmioty typu RASA w kompendium mogą nie działać. Przepraszam za kłopot. Możesz je łatwo przywrócić w Kreatorze Ras: kliknij ikonę magnesu w prawym górnym rogu, zaimportuj rasę z kompendium, sprawdź dane i zapisz. Uwaga: edytor tworzy NOWY przedmiot, nie nadpisuje starego. Jeśli zostawisz tę samą nazwę, w kompendium będą dwa przedmioty o identycznej nazwie. Sugeruję zmienić nazwę w kompendium przed importem lub nadać nową przy zapisie. Jeszcze raz przepraszam za niedogodności. Masz pytania? Zapraszam na mój Discord.",
+
+"NPCForge.rasySpozaGeneratora": "Rasy spoza generatora",
+"NPCForge.rasySpozaGeneratoraOpis": "Ustawienie tej opcji sprawi, że na liście ras nie będą pomijane przedmioty typu ANCESTRY, które nie zostały stworzone w NPC Forge. Takie rasy otrzymają oznaczenie w postaci symbolu ⟡ tuż za nazwą. Każdy taki przedmiot ma typowe wartości atrybutów (d4–d12, zakres anomalii 1), początkowe umiejętności oznaczone jako podstawowe o wartości d4, brak przewag, brak zawad, brak mocy, brak modyfikatorów, brak broni naturalnej oraz brak tablic losowych. Po dodaniu na kartę wygenerowanego NPC wszystkie przedmioty przyznawane metodą item grants zostaną normalnie przypisane tą metodą.",
+"NPCForge.opcjaWylaczona": "Opcja wyłączona",
+"NPCForge.opcjaWlaczona": "Opcja włączona"
 
 } 

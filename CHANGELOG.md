@@ -1,5 +1,9 @@
 # Changelog
 
+## [1.3.0] - 2025-10-16
+### Added
+- **New setting:** Option to enable the use of ancestries created outside the NPC Forge module.
+
 ## [1.2.0] - 2025-10-08
 ### Added
 - Race Builder: **Load existing race** from the compendium via the magnet button (top-right). The form is populated according to loaded race.
