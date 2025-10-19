@@ -1,8 +1,15 @@
 # Changelog
 
+## [1.3.1] - 2025-10-16
+### Hotfix
+
+---
+
 ## [1.3.0] - 2025-10-16
 ### Added
 - **New setting:** Option to enable the use of ancestries created outside the NPC Forge module.
+
+---
 
 ## [1.2.0] - 2025-10-08
 ### Added

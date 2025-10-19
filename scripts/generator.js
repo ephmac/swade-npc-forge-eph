@@ -251,10 +251,10 @@ export async function generujNPC(daneFormularza){
         while (punktyAtr > 0) {
             let listaAtrybutow = [];
             if (wagaZr === 5 && zrecznosc < koncowaZr) listaAtrybutow.push("Zr");
-            if (wagaSp === 5 && spryt < koncowaSp) listaAtrybutow.push("Sp");
-            if (wagaDu === 5 && duch < koncowaDu) listaAtrybutow.push("Du");
+            if (wagaSp === 5 && spryt < koncowySp) listaAtrybutow.push("Sp");
+            if (wagaDu === 5 && duch < koncowyDu) listaAtrybutow.push("Du");
             if (wagaSi === 5 && sila < koncowaSi) listaAtrybutow.push("Si");
-            if (wagaWi === 5 && wigor < koncowaWi) listaAtrybutow.push("Wi");
+            if (wagaWi === 5 && wigor < koncowyWi) listaAtrybutow.push("Wi");
 
             if (listaAtrybutow.length === 0) break;
 
